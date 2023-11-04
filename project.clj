@@ -1,7 +1,15 @@
-(defproject ratatouille "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
+(defproject ratatouille "0.1.0"
+  :description "A Telegram Bot in order to notify students about school canteen menu"
+  :url "https://github.com/macielti/ratatouille"
   :license {:name "EPL-2.0 OR GPL-2.0-or-later WITH Classpath-exception-2.0"
-            :url "https://www.eclipse.org/legal/epl-2.0/"}
-  :dependencies [[org.clojure/clojure "1.11.1"]]
-  :repl-options {:init-ns ratatouille.core})
+            :url  "https://www.eclipse.org/legal/epl-2.0/"}
+
+  :dependencies [[org.clojure/clojure "1.11.1"]
+                 [net.clojars.macielti/common-clj "22.40.40"]
+                 [hashp "0.2.2"]]
+
+  :injections [(require 'hashp.core)]
+
+  :repl-options {:init-ns ratatouille.components}
+
+  :main ratatouille.components/start-system!)
