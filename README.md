@@ -1,14 +1,10 @@
-# ratatouille
+# Ratatouille
 
-A Clojure library designed to ... well, that part is up to you.
-
-## Usage
-
-FIXME
+![Ratatouille](https://lumiere-a.akamaihd.net/v1/images/pp_ratatouille_herobanner_mobile_19736_4c2e46ac.jpeg?region=0,0,640,480)
 
 ## License
 
-Copyright © 2023 FIXME
+Copyright © 2023 Bruno do Nascimento Maciel
 
 This program and the accompanying materials are made available under the
 terms of the Eclipse Public License 2.0 which is available at
