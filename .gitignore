@@ -13,3 +13,4 @@ pom.xml.asc
 .hg/
 /resources/config.edn
 /.idea/
+ratatouille.iml
