@@ -5,7 +5,7 @@
             :url  "https://www.eclipse.org/legal/epl-2.0/"}
 
   :dependencies [[org.clojure/clojure "1.11.1"]
-                 [net.clojars.macielti/common-clj "22.40.40"]
+                 [net.clojars.macielti/common-clj "23.40.43"]
                  [hashp "0.2.2"]]
 
   :injections [(require 'hashp.core)]
