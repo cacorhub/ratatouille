@@ -35,3 +35,17 @@ A Telegram bot send message with instructions about how to perform activation.
   }
 }
 ```
+
+**The error response for a user creation request given an invalid CPF:**
+
+`STATUS 400 - OK`
+
+```json
+{
+  "error": "invalid-cpf",
+  "message": "The CPF provided is not valid",
+  "detail": {
+    "cpf": "9876543210"
+  }
+}
+```
