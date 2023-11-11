@@ -8,7 +8,8 @@
                  [net.clojars.macielti/common-clj "23.42.45"]
                  [hashp "0.2.2"]
                  [metosin/schema-tools "0.13.1"]
-                 [cadastro-de-pessoa "0.4.1"]]
+                 [cadastro-de-pessoa "0.4.1"]
+                 [danlentz/clj-uuid "0.1.9"]]
 
   :injections [(require 'hashp.core)]
 

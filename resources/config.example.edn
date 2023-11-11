@@ -1,0 +1,8 @@
+{:test {:service-name  "ratatouille"
+        :service       {:host "0.0.0.0"
+                        :port 8000}
+        :datomic-local {:storage-dir "/tmp/datomic"
+                        :db-name     "ratatouille-test"}
+        :telegram      {:token                "random-token"
+                        :admin-user-ids       #{"123456789"}
+                        :message-template-dir "templates"}}}
