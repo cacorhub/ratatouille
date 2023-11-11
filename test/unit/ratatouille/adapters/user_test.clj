@@ -12,3 +12,11 @@
                  :user/name             "Manuel Gomes"
                  :user/telegram-chat-id "123456789"}
                 (adapters.user/wire->internal fixtures.user/wire-user)))))
+
+(s/deftest internal->wire-test
+  (testing "GIVEN a internal user entity WHEN we externalize the entity THEN the map should be in the external user entity format"
+    (is (match? {:id               uuid?
+                 :cpf              "035.475.890-02"
+                 :name             "Manuel Gomes"
+                 :telegram-chat-id "123456789"}
+                (adapters.user/internal->wire fixtures.user/user)))))

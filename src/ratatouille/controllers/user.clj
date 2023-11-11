@@ -3,7 +3,8 @@
             [schema.core :as s]
             [ratatouille.db.datomic.user :as database.user]))
 
-(s/defn create!
+(s/defn create! :- models.user/User
   [user :- models.user/User
    datomic-connection]
-  (database.user/insert! user datomic-connection))
+  (database.user/insert! user datomic-connection)
+  user)
