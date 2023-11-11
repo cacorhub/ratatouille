@@ -38,4 +38,3 @@
                             :detail  {:cpf "9876543210"}}}
                   (aux.http/create-user! (assoc fixtures.user/wire-user :cpf "9876543210") service-fn))))
     (component/stop system)))
-
