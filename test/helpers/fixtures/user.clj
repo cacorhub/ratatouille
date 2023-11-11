@@ -10,7 +10,8 @@
   {:user/id               user-id
    :user/cpf              cpf
    :user/name             name
-   :user/telegram-chat-id telegram-chat-id})
+   :user/telegram-chat-id telegram-chat-id
+   :user/status           :user.status/pending-activation})
 
 (def wire-user
   {:name             name
