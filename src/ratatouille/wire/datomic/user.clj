@@ -26,4 +26,8 @@
    {:db/ident       :user/one-time-password-hash
     :db/valueType   :db.type/string
     :db/cardinality :db.cardinality/one
-    :db/doc         "User one time password hash salted"}])
+    :db/doc         "User one time password hash salted"}
+   {:db/ident       :user/status
+    :db/valueType   :db.type/keyword
+    :db/cardinality :db.cardinality/one
+    :db/doc         "User status"}])
