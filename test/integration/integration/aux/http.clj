@@ -6,8 +6,8 @@
   [user
    service-fn]
   (let [{:keys [body status]} (test/response-for service-fn
-                                                 :post "/api/user"
+                                                 :post "/api/users"
                                                  :headers {"Content-Type" "application/json"}
-                                                 :body (json/encode user))]
+                                                 :body (json/encode {:user user}))]
     {:status status
      :body   (json/decode body true)}))

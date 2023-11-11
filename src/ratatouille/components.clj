@@ -21,3 +21,12 @@
 
 (defn start-system! []
   (component/start system))
+
+(def system-test
+  (component/system-map
+    :config (component.config/new-config "resources/config.example.edn" :test :edn)
+    :datomic (component/using (component.datomic/new-datomic-local datomic.config/schemas) [:config])
+    :http-client (component/using (component.http-client/new-http-client) [:config])
+    #_:telegram-consumer #_(component/using (component.telegram.consumer/new-mock-telegram-consumer diplomat.telegram.consumer/consumers) [:config :http-client :datomic])
+    :routes (component/using (component.routes/new-routes diplomat.http-server/routes) [:config])
+    :service (component/using (component.service/new-service) [:routes :config :datomic])))

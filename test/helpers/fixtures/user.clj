@@ -2,7 +2,7 @@
   (:require [clojure.test :refer :all]))
 
 (def user-id (random-uuid))
-(def cpf "035.475.890-02")
+(def cpf "03547589002")
 (def name "Manuel Gomes")
 (def telegram-chat-id "123456789")
 
