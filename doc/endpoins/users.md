@@ -6,6 +6,8 @@ This endpoint should be used to create a user registration.
 
 When this endpoint is called a `User` entity is persisted on database with status as pending activation.
 
+A Telegram bot send message with instructions about how to perform activation.
+
 **Expected JSON body:**
 
 ```json
