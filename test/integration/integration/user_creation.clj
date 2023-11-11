@@ -27,3 +27,15 @@
                                  (aux.http/create-user! fixtures.user/wire-user service-fn)))))
     (component/stop system)))
 
+(s/deftest user-creation-invalid-cpf
+  (let [system (component/start components/system-test)
+        service-fn (-> (component.helper/get-component-content :service system)
+                       :io.pedestal.http/service-fn)]
+    (testing "That we can't create an user given a invalid CPF"
+      (is (match? {:status 400
+                   :body   {:error   "invalid-cpf"
+                            :message "The CPF provided is not valid"
+                            :detail  {:cpf "9876543210"}}}
+                  (aux.http/create-user! (assoc fixtures.user/wire-user :cpf "9876543210") service-fn))))
+    (component/stop system)))
+
