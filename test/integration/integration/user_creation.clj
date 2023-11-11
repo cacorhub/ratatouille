@@ -19,7 +19,7 @@
     (testing "That we can create a user"
       (is (match? {:status 200
                    :body   {:user {:id               clj-uuid/uuid-string?
-                                   :cpf              "035.475.890-02"
+                                   :cpf              "03547589002"
                                    :name             "Manuel Gomes"
                                    :telegram-chat-id "123456789"
                                    :status           "pending-activation"}}}

@@ -9,7 +9,7 @@
 (s/deftest wire->internal-test
   (testing "GIVEN a wire user map WHEN we internalize the entity THEN the map should be in the internal user entity format"
     (is (match? (matchers/equals {:user/id               uuid?
-                                  :user/cpf              "035.475.890-02"
+                                  :user/cpf              "03547589002"
                                   :user/name             "Manuel Gomes"
                                   :user/telegram-chat-id "123456789"
                                   :user/status           :user.status/pending-activation})
@@ -18,7 +18,7 @@
 (s/deftest internal->wire-test
   (testing "GIVEN a internal user entity WHEN we externalize the entity THEN the map should be in the external user entity format"
     (is (match? (matchers/equals {:id               uuid?
-                                  :cpf              "035.475.890-02"
+                                  :cpf              "03547589002"
                                   :name             "Manuel Gomes"
                                   :telegram-chat-id "123456789"
                                   :status           :pending-activation})
