@@ -6,7 +6,7 @@ This endpoint should be used to create a user registration.
 
 When this endpoint is called a `User` entity is persisted on database with status as pending activation.
 
-Expected JSON body:
+**Expected JSON body:**
 
 ```json
 {
@@ -18,7 +18,7 @@ Expected JSON body:
 }
 ```
 
-The successful response for a user creation request is the following:
+**The successful response for a user creation request is the following:**
 
 `STATUS 200 - OK`
 
