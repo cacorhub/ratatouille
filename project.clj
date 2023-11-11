@@ -13,4 +13,6 @@
 
   :repl-options {:init-ns ratatouille.components}
 
+  :test-paths ["test/unit" "test/integration" "test/helpers"]
+
   :main ratatouille.components/start-system!)
