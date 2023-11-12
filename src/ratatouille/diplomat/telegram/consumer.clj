@@ -3,10 +3,9 @@
             [datomic.client.api :as dl]
             [io.pedestal.interceptor :as interceptor]
             [common-clj.component.telegram.diplomat.http-client :as component.telegram.diplomat.http-client]
-            [morse.api :as morse-api]
             [ratatouille.adapters.subscription :as adapters.subscription]
-            [ratatouille.db.datomic.subscription :as database.subscription]
             [ratatouille.controllers.menu :as controllers.menu]
+            [ratatouille.controllers.subscription :as controllers.subscription]
             [common-clj.error.core :as error]))
 
 (def admin-interceptor
@@ -29,21 +28,14 @@
         (io/copy menu-file-output)))
   (controllers.menu/notify-menu-update! config (-> datomic :connection dl/db)))
 
-(defn subscribe-to-menu-updates!
-  [{{:update/keys [chat-id]} :update
-    {:keys [config datomic]} :components}]
-  (let [{:subscription/keys [id] :as subscription} (adapters.subscription/wire->subscription chat-id)]
-    (if-not (database.subscription/lookup id (-> datomic :connection dl/db))
-      (do (database.subscription/insert! subscription (:connection datomic))
-          (morse-api/send-text (-> config :telegram :token)
-                               chat-id
-                               "Inscrição concluida com sucesso. Agora você vai receber uma notificação quando o cadápio for atualizado."))
-      (morse-api/send-text (-> config :telegram :token)
-                           chat-id
-                           "Você já está inscrito."))))
+(defn subscribe-to-bot!
+  [{{:update/keys [chat-id] :as update} :update
+    {:keys [config datomic]}            :components}]
+  (-> (adapters.subscription/wire->subscription chat-id)
+      (controllers.subscription/bot-subscription! update (:connection datomic) config)))
 
 (def consumers
   {:interceptors [admin-interceptor]
    :bot-command  {:atualizar-cardapio {:interceptors [:admin-user]
                                        :handler      upsert-menu!}
-                  :notificar-cardapio {:handler subscribe-to-menu-updates!}}})
+                  :start              {:handler subscribe-to-bot!}}})
