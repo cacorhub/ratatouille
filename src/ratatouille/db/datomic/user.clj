@@ -7,3 +7,12 @@
   [user :- models.user/User
    datomic-connection]
   (dl/transact datomic-connection {:tx-data [user]}))
+
+(s/defn lookup-by-telegram-chat-id :- (s/maybe models.user/User)
+  [telegram-chat-id :- s/Str
+   datomic-database]
+  (some-> (dl/q '[:find (pull ?user [*])
+                  :in $ ?telegram-chat-id
+                  :where [?user :user/telegram-chat-id ?telegram-chat-id]] datomic-database telegram-chat-id)
+          ffirst
+          (dissoc :db/id)))
