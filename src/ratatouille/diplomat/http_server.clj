@@ -3,4 +3,5 @@
             [ratatouille.interceptors.user :as interceptors.user]))
 
 (def routes [["/api/users" :post [interceptors.user/cpf-validation-interceptor
+                                  interceptors.user/already-taken-cpf-check-interceptor
                                   diplomat.http-server.user/create!] :route-name :create-user]])

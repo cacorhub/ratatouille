@@ -3,12 +3,13 @@
             [schema.core :as s]
             [ratatouille.models.user :as models.user]
             [ratatouille.wire.in.user :as wire.in.user]
-            [ratatouille.wire.out.user :as wire.out.user]))
+            [ratatouille.wire.out.user :as wire.out.user]
+            [cadastro-de-pessoa.shared]))
 
 (s/defn wire->internal :- models.user/User
   [{:keys [cpf name telegram-chat-id]} :- wire.in.user/User]
   {:user/id               (random-uuid)
-   :user/cpf              cpf
+   :user/cpf              (cadastro-de-pessoa.shared/digits-string cpf)
    :user/name             name
    :user/telegram-chat-id telegram-chat-id
    :user/status           :user.status/pending-activation})
