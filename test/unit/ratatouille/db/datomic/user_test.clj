@@ -14,3 +14,10 @@
     (testing "that we can query a user entity by telegram chat id"
       (is (match? fixtures.user/user
                   (database.user/lookup-by-telegram-chat-id fixtures.user/telegram-chat-id (dl/db mocked-datomic)))))))
+
+(s/deftest lookup-by-cpf-test
+  (let [mocked-datomic (component.datomic/mocked-datomic-local datomic.config/schemas)]
+    (database.user/insert! fixtures.user/user mocked-datomic)
+    (testing "that we can query a user entity by cpf"
+      (is (match? fixtures.user/user
+                  (database.user/lookup-by-cpf fixtures.user/cpf (dl/db mocked-datomic)))))))

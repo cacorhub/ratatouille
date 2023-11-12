@@ -16,3 +16,12 @@
                   :where [?user :user/telegram-chat-id ?telegram-chat-id]] datomic-database telegram-chat-id)
           ffirst
           (dissoc :db/id)))
+
+(s/defn lookup-by-cpf :- (s/maybe models.user/User)
+  [cpf :- s/Str
+   datomic-database]
+  (some-> (dl/q '[:find (pull ?user [*])
+                  :in $ ?cpf
+                  :where [?user :user/cpf ?cpf]] datomic-database cpf)
+          ffirst
+          (dissoc :db/id)))

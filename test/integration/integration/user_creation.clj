@@ -38,3 +38,18 @@
                             :detail  {:cpf "9876543210"}}}
                   (aux.http/create-user! (assoc fixtures.user/wire-user :cpf "9876543210") service-fn))))
     (component/stop system)))
+
+(s/deftest user-creation-already-taken-cpf
+  (let [system (component/start components/system-test)
+        service-fn (-> (component.helper/get-component-content :service system)
+                       :io.pedestal.http/service-fn)]
+    (testing "That we can't create an user given a CPF that is already taken"
+      (is (match? {:status 200}
+                  (mfn/verifying [(morse-api/send-text (mockfn.matchers/any) (mockfn.matchers/any) (mockfn.matchers/any)) :result (mockfn.matchers/exactly 1)]
+                                 (aux.http/create-user! fixtures.user/wire-user service-fn))))
+      (is (match? {:status 400
+                   :body   {:error   "cpf-already-taken"
+                            :message "The CPF provided is already in use"
+                            :detail  {:cpf "03547589002"}}}
+                  (aux.http/create-user! fixtures.user/wire-user service-fn))))
+    (component/stop system)))
