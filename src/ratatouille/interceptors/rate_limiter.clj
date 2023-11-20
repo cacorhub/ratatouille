@@ -15,7 +15,7 @@
      :enter (fn [{{:keys [components remote-addr]} :request :as context}]
               (let [{:keys [rate-limiter prometheus]} components]
                 (when-not (r/allow? (get @rate-limiter :four-requests-per-min) remote-addr)
-                  (prometheus/inc (:registry prometheus) :ratatouille/rate-limiter {:route (-> context :route :route-name)})
+                  (prometheus/inc (:registry prometheus) :ratatouille/rate-limiter {:route-name (-> context :route :route-name)})
                   (common-error/http-friendly-exception 429
                                                         "too-many-requests"
                                                         "Too Many Requests"
