@@ -1,5 +1,6 @@
 (ns integration.user-creation
-  (:require [clojure.test :refer :all]
+  (:require [clojure.string :as str]
+            [clojure.test :refer :all]
             [com.stuartsierra.component :as component]
             [ratatouille.components :as components]
             [common-clj.component.helper.core :as component.helper]
@@ -95,6 +96,18 @@
                    :body   {:error   "too-many-requests"
                             :message "Too Many Requests"
                             :detail  {:error "too-many-requests"}}}
+                  (aux.http/create-user! fixtures.user/wire-user service-fn))))
+
+    (testing "Given a rate limit of 4 per min, the fifth request in the 1 minute time window should be refused and we send proper metrics to prometheus"
+      (is (str/includes? (-> (aux.http/fetch-metrics "random-secret" service-fn) :body) "ratatouille_rate_limiter_total{route_name=\":create-user\",} 1.0")))
+
+    (Thread/sleep 60000)
+
+    (testing "After 1 minute, everything is fine"
+      (is (match? {:status 400
+                   :body   {:error   "cpf-already-taken"
+                            :message "The CPF provided is already in use"
+                            :detail  {:cpf "03547589002"}}}
                   (aux.http/create-user! fixtures.user/wire-user service-fn))))
 
     (component/stop system)))
