@@ -11,7 +11,8 @@
             [ratatouille.db.datomic.config :as datomic.config]
             [common-clj.component.rate-limiter :as component.rate-limiter]
             [ratatouille.interceptors.rate-limiter :as interceptors.rate-limiter]
-            [ratatouille.diplomat.http-server :as diplomat.http-server]))
+            [ratatouille.diplomat.http-server :as diplomat.http-server]
+            [ratatouille.diplomat.prometheus :as diplomat.prometheus]))
 
 (def system
   (component/system-map
@@ -21,8 +22,8 @@
     :telegram-consumer (component/using (component.telegram.consumer/new-telegram-consumer diplomat.telegram.consumer/consumers) [:config :http-client :datomic])
     :routes (component/using (component.routes/new-routes diplomat.http-server/routes) [:config])
     :rate-limiter (component.rate-limiter/new-rate-limiter interceptors.rate-limiter/rate-limiters-definition)
-    :prometheus (component/using (component.prometheus/new-prometheus [(prometheus/counter :risky/file-extracted)]) [:config])
-    :service (component/using (component.service/new-service) [:routes :config :datomic :rate-limiter])))
+    :prometheus (component/using (component.prometheus/new-prometheus diplomat.prometheus/metrics-definition) [:config])
+    :service (component/using (component.service/new-service) [:routes :config :datomic :rate-limiter :prometheus])))
 
 (defn start-system! []
   (component/start system))
@@ -35,4 +36,5 @@
     #_:telegram-consumer #_(component/using (component.telegram.consumer/new-mock-telegram-consumer diplomat.telegram.consumer/consumers) [:config :http-client :datomic])
     :routes (component/using (component.routes/new-routes diplomat.http-server/routes) [:config])
     :rate-limiter (component.rate-limiter/new-rate-limiter interceptors.rate-limiter/rate-limiters-definition)
-    :service (component/using (component.service/new-service) [:routes :config :datomic :rate-limiter])))
+    :prometheus (component/using (component.prometheus/new-prometheus diplomat.prometheus/metrics-definition) [:config])
+    :service (component/using (component.service/new-service) [:routes :config :datomic :rate-limiter :prometheus])))

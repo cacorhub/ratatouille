@@ -2,4 +2,4 @@
   (:require [iapetos.core :as prometheus]))
 
 (def metrics-definition
-  [(prometheus/counter :ratatouille/rate-limiter {:labels [:create-user]})])
+  [(prometheus/counter :ratatouille/rate-limiter {:labels [:route]})])
