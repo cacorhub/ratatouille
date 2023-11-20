@@ -20,7 +20,7 @@
     :telegram-consumer (component/using (component.telegram.consumer/new-telegram-consumer diplomat.telegram.consumer/consumers) [:config :http-client :datomic])
     :routes (component/using (component.routes/new-routes diplomat.http-server/routes) [:config])
     :rate-limiter (component.rate-limiter/new-rate-limiter interceptors.rate-limiter/rate-limiters-definition)
-    :service (component/using (component.service/new-service) [:routes :config :datomic])))
+    :service (component/using (component.service/new-service) [:routes :config :datomic :rate-limiter])))
 
 (defn start-system! []
   (component/start system))
