@@ -1,6 +1,7 @@
 {:test {:service-name  "ratatouille"
         :service       {:host "0.0.0.0"
                         :port 8080}
+        :prometheus-token "random-secret"
         :datomic-local {:storage-dir "/tmp/datomic"
                         :db-name     "ratatouille-test"}
         :telegram      {:token                "random-token"
