@@ -1,7 +1,6 @@
 (ns integration.aux.http
   (:require [io.pedestal.test :as test]
-            [cheshire.core :as json]
-            [iapetos.core :as prometheus]))
+            [cheshire.core :as json]))
 
 (defn create-user!
   [user
