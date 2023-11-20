@@ -1,5 +1,6 @@
 (ns ratatouille.components
   (:require [com.stuartsierra.component :as component]
+            [common-clj.component.prometheus :as component.prometheus]
             [common-clj.component.service :as component.service]
             [common-clj.component.routes :as component.routes]
             [common-clj.component.config :as component.config]
@@ -20,6 +21,7 @@
     :telegram-consumer (component/using (component.telegram.consumer/new-telegram-consumer diplomat.telegram.consumer/consumers) [:config :http-client :datomic])
     :routes (component/using (component.routes/new-routes diplomat.http-server/routes) [:config])
     :rate-limiter (component.rate-limiter/new-rate-limiter interceptors.rate-limiter/rate-limiters-definition)
+    :prometheus (component/using (component.prometheus/new-prometheus [(prometheus/counter :risky/file-extracted)]) [:config])
     :service (component/using (component.service/new-service) [:routes :config :datomic :rate-limiter])))
 
 (defn start-system! []
