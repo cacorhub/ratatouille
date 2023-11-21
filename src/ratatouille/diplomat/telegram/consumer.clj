@@ -1,12 +1,14 @@
 (ns ratatouille.diplomat.telegram.consumer
   (:require [clojure.java.io :as io]
+            [clojure.string :as string]
             [datomic.client.api :as dl]
             [io.pedestal.interceptor :as interceptor]
             [common-clj.component.telegram.diplomat.http-client :as component.telegram.diplomat.http-client]
             [ratatouille.adapters.subscription :as adapters.subscription]
             [ratatouille.controllers.menu :as controllers.menu]
             [ratatouille.controllers.subscription :as controllers.subscription]
-            [common-clj.error.core :as error]))
+            [common-clj.error.core :as error]
+            [ratatouille.controllers.user :as controllers.user]))
 
 (def admin-interceptor
   (interceptor/interceptor {:name  :admin-user
@@ -18,7 +20,7 @@
                                          (error/http-friendly-exception 430 "forbidden" "you are not admin" {:chat-id chat-id}))))}))
 
 (defn upsert-menu!
-  [{{:update/keys [message file-id]}     :update
+  [{{:update/keys [file-id]}             :update
     {:keys [config datomic http-client]} :components}]
   (let [menu-file-output (io/file "resources/menu.jpg")]
     (-> (component.telegram.diplomat.http-client/fetch-telegram-file-path file-id
@@ -34,8 +36,17 @@
   (-> (adapters.subscription/wire->subscription chat-id)
       (controllers.subscription/bot-subscription! update (:connection datomic) config)))
 
+(defn activate-user!
+  [{{:update/keys [message chat-id]} :update
+    {:keys [config datomic]} :components}]
+  (let [args (-> (string/split message #" ") rest)
+        user-telegram-chat-id (-> args first Integer/parseInt)]
+    (controllers.user/activate! (str user-telegram-chat-id) chat-id (:connection datomic) config)))
+
 (def consumers
   {:interceptors [admin-interceptor]
-   :bot-command  {:atualizar-cardapio {:interceptors [:admin-user]
+   :bot-command  {:atualizar_cardapio {:interceptors [:admin-user]
                                        :handler      upsert-menu!}
+                  :ativar_usuario     {:interceptors [:admin-user]
+                                       :handler      activate-user!}
                   :start              {:handler subscribe-to-bot!}}})

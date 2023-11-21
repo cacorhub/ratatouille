@@ -21,3 +21,12 @@
     (testing "that we can query a user entity by cpf"
       (is (match? fixtures.user/user
                   (database.user/lookup-by-cpf fixtures.user/cpf (dl/db mocked-datomic)))))))
+
+(s/deftest activate!-test
+  (let [mocked-datomic (component.datomic/mocked-datomic-local datomic.config/schemas)]
+    (database.user/insert! fixtures.user/user mocked-datomic)
+    (database.user/activate! fixtures.user/user-id mocked-datomic)
+    (testing "Given a user with activation pending, we should be able to mark the user as activated"
+      (is (match? {:user/id     fixtures.user/user-id
+                   :user/status :user.status/active}
+                  (database.user/lookup-by-cpf fixtures.user/cpf (dl/db mocked-datomic)))))))
