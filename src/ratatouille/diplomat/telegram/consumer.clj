@@ -6,7 +6,10 @@
             [ratatouille.adapters.subscription :as adapters.subscription]
             [ratatouille.controllers.menu :as controllers.menu]
             [ratatouille.controllers.subscription :as controllers.subscription]
-            [common-clj.error.core :as error]))
+            [common-clj.error.core :as error]
+            [ratatouille.db.datomic.user :as database.user]
+            [ratatouille.adapters.password :as adapters.password]
+            [ratatouille.controllers.password :as controllers.password]))
 
 (def admin-interceptor
   (interceptor/interceptor {:name  :admin-user
@@ -34,8 +37,17 @@
   (-> (adapters.subscription/wire->subscription chat-id)
       (controllers.subscription/bot-subscription! update (:connection datomic) config)))
 
+(defn generate-one-time-password!
+  [{{:update/keys [chat-id] :as update} :update
+    {:keys [config datomic]}            :components}]
+  (let [user (database.user/lookup-by-telegram-chat-id (str chat-id) (dl/db (:connection datomic)))
+        password (adapters.password/wire->internal user update)]
+    (controllers.password/generate-one-time-password! password config (:connection datomic))))
+
 (def consumers
   {:interceptors [admin-interceptor]
-   :bot-command  {:atualizar-cardapio {:interceptors [:admin-user]
+   :bot-command  {:gerar_senha        {:interceptors [:admin-user]
+                                       :handler      generate-one-time-password!}
+                  :atualizar-cardapio {:interceptors [:admin-user]
                                        :handler      upsert-menu!}
                   :start              {:handler subscribe-to-bot!}}})

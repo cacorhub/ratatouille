@@ -8,4 +8,5 @@
                                   interceptors.user/cpf-validation-interceptor
                                   interceptors.user/already-taken-cpf-check-interceptor
                                   diplomat.http-server.user/create!] :route-name :create-user]
+             ["/api/users/auth" :post [diplomat.http-server.user/authenticate!] :route-name :user-authentication]
              ["/metrics" :get [component.prometheus/metrics] :route-name :prometheus-metrics]])

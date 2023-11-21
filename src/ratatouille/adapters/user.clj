@@ -21,3 +21,12 @@
    :name             name
    :telegram-chat-id telegram-chat-id
    :status           (common-keyword/un-namespaced status)})
+
+(s/defn wire-auth->internal
+  [{:keys [cpf password]}]
+  {:auth/cpf      cpf
+   :auth/password password})
+
+(s/defn token->wire
+  [token :- s/Str]
+  {:token token})
