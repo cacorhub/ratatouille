@@ -1,6 +1,6 @@
 (ns ratatouille.models.meal
   (:require [schema.core :as s])
-  (:import (java.time LocalDate LocalDateTime)))
+  (:import (org.joda.time DateTime LocalDate)))
 
 (def types #{:meal.type/lunch :meal.type/dinner})
 (def Type (apply s/enum types))
@@ -9,6 +9,6 @@
   {:meal/id             s/Uuid
    :meal/reference-date LocalDate
    :meal/type           Type
-   :meal/created-at     LocalDateTime})
+   :meal/created-at     DateTime})
 
 (s/defschema Meal meal-skeleton)

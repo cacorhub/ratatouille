@@ -1,9 +1,8 @@
 (ns ratatouille.logic.meal
   (:require [clj-time.core :as t]
             [ratatouille.models.meal :as models.meal]
-            []
             [schema.core :as s])
-  (:import (java.time LocalDate)))
+  (:import (org.joda.time LocalDate)))
 
 (s/defn ->meal :- models.meal/Meal
   [reference-date :- LocalDate
