@@ -8,3 +8,8 @@
   [{:meal/keys [reference-date created-at] :as meal} :- models.meal/Meal]
   (assoc meal :meal/reference-date (str reference-date)
               :meal/created-at (t-coerce/to-date created-at)))
+
+(s/defn datomic->internal :- models.meal/Meal
+  [{:meal/keys [reference-date created-at] :as meal} :- wire.datomic.meal/Meal]
+  (assoc meal :meal/reference-date (t-coerce/to-local-date reference-date)
+              :meal/created-at (t-coerce/to-local-date-time created-at)))
