@@ -1,4 +1,8 @@
-(ns ratatouille.wire.datomic.meal)
+(ns ratatouille.wire.datomic.meal
+  (:require [ratatouille.models.meal :as models.meal]
+            [schema-tools.core :as schema-tools]
+            [schema.core :as s])
+  (:import (java.util Date)))
 
 (def meal-skeleton
   [{:db/ident       :meal/id
@@ -18,3 +22,8 @@
     :db/valueType   :db.type/instant
     :db/cardinality :db.cardinality/one
     :db/doc         "When the meal was created"}])
+
+(s/defschema Meal
+  (schema-tools/assoc models.meal/Meal
+                      :meal/reference-date s/Str
+                      :meal/created-at Date))
