@@ -15,8 +15,8 @@
 
       (merge component {:jobs {:pool pool}})))
 
-  (stop [{:keys [service]}]
-    (at-at/stop-and-reset-pool! (:pool service) :stop)))
+  (stop [{:keys [jobs]}]
+    (at-at/stop-and-reset-pool! (:pool jobs) :stop)))
 
 (defn new-jobs []
   (->Jobs {} {}))
