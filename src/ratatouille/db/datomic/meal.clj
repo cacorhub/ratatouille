@@ -21,3 +21,13 @@
           ffirst
           (dissoc :db/id)
           adapters.meal/datomic->internal))
+
+(s/defn lookup :- (s/maybe models.meal/Meal)
+  [id :- s/Uuid
+   datomic-db]
+  (some-> (dl/q '[:find (pull ?meal [*])
+                  :in $ ?meal-id
+                  :where [?meal :meal/id ?meal-id]] datomic-db id)
+          ffirst
+          (dissoc :db/id)
+          adapters.meal/datomic->internal))
