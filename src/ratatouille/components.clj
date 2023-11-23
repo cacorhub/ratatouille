@@ -12,12 +12,14 @@
             [common-clj.component.rate-limiter :as component.rate-limiter]
             [ratatouille.interceptors.rate-limiter :as interceptors.rate-limiter]
             [ratatouille.diplomat.http-server :as diplomat.http-server]
-            [ratatouille.diplomat.prometheus :as diplomat.prometheus]))
+            [ratatouille.diplomat.prometheus :as diplomat.prometheus]
+            [ratatouille.job :as job]))
 
 (def system
   (component/system-map
     :config (component.config/new-config "resources/config.edn" :prod :edn)
     :datomic (component/using (component.datomic/new-datomic-local datomic.config/schemas) [:config])
+    :jobs (component/using (job/new-jobs) [:config :datomic])
     :http-client (component/using (component.http-client/new-http-client) [:config])
     :telegram-consumer (component/using (component.telegram.consumer/new-telegram-consumer diplomat.telegram.consumer/consumers) [:config :http-client :datomic])
     :routes (component/using (component.routes/new-routes diplomat.http-server/routes) [:config])
@@ -32,6 +34,7 @@
   (component/system-map
     :config (component.config/new-config "resources/config.example.edn" :test :edn)
     :datomic (component/using (component.datomic/new-datomic-local datomic.config/schemas) [:config])
+    :jobs (component/using (job/new-jobs) [:config :datomic])
     :http-client (component/using (component.http-client/new-http-client) [:config])
     #_:telegram-consumer #_(component/using (component.telegram.consumer/new-mock-telegram-consumer diplomat.telegram.consumer/consumers) [:config :http-client :datomic])
     :routes (component/using (component.routes/new-routes diplomat.http-server/routes) [:config])
