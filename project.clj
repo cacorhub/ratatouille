@@ -9,7 +9,8 @@
                  [hashp "0.2.2"]
                  [metosin/schema-tools "0.13.1"]
                  [cadastro-de-pessoa "0.4.1"]
-                 [danlentz/clj-uuid "0.1.9"]]
+                 [danlentz/clj-uuid "0.1.9"]
+                 [metosin/schema-tools "0.13.1"]]
 
   :injections [(require 'hashp.core)]
 
