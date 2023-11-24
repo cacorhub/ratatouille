@@ -36,6 +36,6 @@
 
 (def consumers
   {:interceptors [admin-interceptor]
-   :bot-command  {:atualizar-cardapio {:interceptors [:admin-user]
+   :bot-command  {:atualizar_cardapio {:interceptors [:admin-user]
                                        :handler      upsert-menu!}
                   :start              {:handler subscribe-to-bot!}}})
