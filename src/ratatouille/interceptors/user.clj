@@ -3,6 +3,7 @@
             [datomic.client.api :as dl]
             [io.pedestal.interceptor :as pedestal.interceptor]
             [cadastro-de-pessoa.cpf]
+            [morse.api :as morse-api]
             [ratatouille.db.datomic.user :as database.user]))
 
 (def cpf-validation-interceptor
@@ -27,3 +28,13 @@
                                                                                         "The CPF provided is already in use"
                                                                                         {:cpf cpf})))
                                               context)}))
+
+(def active-user-check-interceptor
+  (pedestal.interceptor/interceptor {:name  ::active-user-check-interceptor
+                                     :enter (fn [{{:update/keys [chat-id]} :update
+                                                  {:keys [config datomic]} :components :as context}]
+                                              (let [{:user/keys [status]} (database.user/lookup-by-telegram-chat-id (str chat-id) (-> datomic :connection dl/db))]
+                                                (when (= status :user.status/pending-activation)
+                                                  (morse-api/send-text (-> (:telegram config) :token)
+                                                                       chat-id
+                                                                       "O cadastro ainda não foi ativado, ative o seu cadastro primeiro."))))}))
