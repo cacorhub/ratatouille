@@ -69,18 +69,15 @@
   (controllers.reservation/reserve-dinner! chat-id (jt/local-date-time) (:connection datomic) config))
 
 (def consumers
-  {:interceptors [admin-interceptor interceptors.user/active-user-check-interceptor
-                  interceptors.reservation/over-limit-reservations-lunch-check-interceptor
-                  interceptors.reservation/over-limit-reservations-dinner-check-interceptor]
-   :bot-command  {:update_menu     {:interceptors [:admin-user]
-                                    :handler      upsert-menu!}
-                  :ativar_cadastro {:interceptors [:admin-user]
-                                    :handler      activate-user!}
-                  :reserve_lunch   {:interceptors [:active-user-check-interceptor
-                                                   :over-limit-reservations-lunch-check-interceptor]
-                                    :handler      reserve-lunch!}
-                  :reserve_dinner  {:interceptors [:active-user-check-interceptor
-                                                   :over-limit-reservations-dinner-check-interceptor]
-                                    :handler      reserve-dinner!}
-                  :menu            {:handler menu}
-                  :start           {:handler subscribe-to-bot!}}})
+  {:bot-command {:update_menu     {:interceptors [admin-interceptor]
+                                   :handler      upsert-menu!}
+                 :ativar_cadastro {:interceptors [admin-interceptor]
+                                   :handler      activate-user!}
+                 :reserve_lunch   {:interceptors [interceptors.user/active-user-check-interceptor
+                                                  interceptors.reservation/over-limit-reservations-lunch-check-interceptor]
+                                   :handler      reserve-lunch!}
+                 :reserve_dinner  {:interceptors [interceptors.user/active-user-check-interceptor
+                                                  interceptors.reservation/over-limit-reservations-dinner-check-interceptor]
+                                   :handler      reserve-dinner!}
+                 :menu            {:handler menu}
+                 :start           {:handler subscribe-to-bot!}}})
