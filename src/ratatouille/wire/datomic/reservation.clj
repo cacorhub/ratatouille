@@ -23,6 +23,6 @@
     :db/cardinality :db.cardinality/one
     :db/doc         "When the reservation was placed"}
    {:db/ident       :reservation/status
-    :db/valueType   :db.type/instant
+    :db/valueType   :db.type/keyword
     :db/cardinality :db.cardinality/one
     :db/doc         "Reservation status"}])

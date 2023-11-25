@@ -11,7 +11,8 @@
                  [metosin/schema-tools "0.13.1"]
                  [cadastro-de-pessoa "0.4.1"]
                  [danlentz/clj-uuid "0.1.9"]
-                 [metosin/schema-tools "0.13.1"]]
+                 [metosin/schema-tools "0.13.1"]
+                 [clj.qrgen "0.4.0"]]
 
   :injections [(require 'hashp.core)]
 

@@ -34,7 +34,8 @@
                                      :enter (fn [{{:update/keys [chat-id]} :update
                                                   {:keys [config datomic]} :components :as context}]
                                               (let [{:user/keys [status]} (database.user/lookup-by-telegram-chat-id (str chat-id) (-> datomic :connection dl/db))]
-                                                (when (= status :user.status/pending-activation)
+                                                (if (= status :user.status/pending-activation)
                                                   (morse-api/send-text (-> (:telegram config) :token)
                                                                        chat-id
-                                                                       "O cadastro ainda não foi ativado, ative o seu cadastro primeiro."))))}))
+                                                                       "O cadastro ainda não foi ativado, ative o seu cadastro primeiro.")
+                                                  context)))}))

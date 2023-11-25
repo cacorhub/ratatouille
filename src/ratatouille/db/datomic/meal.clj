@@ -3,7 +3,7 @@
             [ratatouille.models.meal :as models.meal]
             [schema.core :as s]
             [ratatouille.adapters.meal :as adapters.meal])
-  (:import (org.joda.time LocalDate)))
+  (:import (java.time LocalDate)))
 
 (s/defn insert!
   [meal :- models.meal/Meal
@@ -17,7 +17,7 @@
   (some-> (dl/q '[:find (pull ?meal [*])
                   :in $ ?reference-date ?type
                   :where [?meal :meal/reference-date ?reference-date]
-                         [?meal :meal/type ?type]] datomic-db (str reference-date) type)
+                  [?meal :meal/type ?type]] datomic-db (str reference-date) type)
           ffirst
           (dissoc :db/id)
           adapters.meal/datomic->internal))

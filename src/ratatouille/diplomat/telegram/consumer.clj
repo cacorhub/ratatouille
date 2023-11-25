@@ -5,6 +5,7 @@
             [cheshire.core :as json]
             [io.pedestal.interceptor :as interceptor]
             [common-clj.component.telegram.diplomat.http-client :as component.telegram.diplomat.http-client]
+            [java-time.api :as jt]
             [morse.api :as morse-api]
             [ratatouille.adapters.subscription :as adapters.subscription]
             [ratatouille.controllers.menu :as controllers.menu]
@@ -42,7 +43,7 @@
 
 (defn activate-user!
   [{{:update/keys [message chat-id]} :update
-    {:keys [config datomic]} :components}]
+    {:keys [config datomic]}         :components}]
   (let [args (-> (string/split message #" ") rest)
         user-telegram-chat-id (-> args first Integer/parseInt)]
     (controllers.user/activate! (str user-telegram-chat-id) chat-id (:connection datomic) config)))
@@ -59,13 +60,15 @@
 (defn reserve-lunch!
   [{{:update/keys [chat-id] :as update} :update
     {:keys [config datomic]}            :components}]
-  (controllers.reservation/reserve-lunch! chat-id config))
+  (controllers.reservation/reserve-lunch! chat-id (jt/local-date-time) (:connection datomic) config))
 
 (def consumers
   {:interceptors [admin-interceptor interceptors.user/active-user-check-interceptor]
-   :bot-command  {:update_menu   {:interceptors [:admin-user]
-                                  :handler      upsert-menu!}
-                  :reserve_lunch {:interceptors [:active-user-check-interceptor]
-                                  :handler      reserve-lunch!}
-                  :menu          {:handler menu}
-                  :start         {:handler subscribe-to-bot!}}})
+   :bot-command  {:update_menu     {:interceptors [:admin-user]
+                                    :handler      upsert-menu!}
+                  :ativar_cadastro {:interceptors [:admin-user]
+                                    :handler      activate-user!}
+                  :reserve_lunch   {:interceptors [:active-user-check-interceptor]
+                                    :handler      reserve-lunch!}
+                  :menu            {:handler menu}
+                  :start           {:handler subscribe-to-bot!}}})
