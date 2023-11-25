@@ -10,6 +10,10 @@
     :db/valueType   :db.type/uuid
     :db/cardinality :db.cardinality/one
     :db/doc         "Meal for where this reservation is"}
+   {:db/ident       :reservation/user-id
+    :db/valueType   :db.type/uuid
+    :db/cardinality :db.cardinality/one
+    :db/doc         "User that made the reservation"}
    {:db/ident       :reservation/redeemed-at
     :db/valueType   :db.type/instant
     :db/cardinality :db.cardinality/one

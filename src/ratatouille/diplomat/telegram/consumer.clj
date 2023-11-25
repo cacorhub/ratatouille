@@ -1,12 +1,16 @@
 (ns ratatouille.diplomat.telegram.consumer
-  (:require [clojure.java.io :as io]
+  (:require [cheshire.core :as json]
+            [clojure.java.io :as io]
             [datomic.client.api :as dl]
             [io.pedestal.interceptor :as interceptor]
             [common-clj.component.telegram.diplomat.http-client :as component.telegram.diplomat.http-client]
+            [morse.api :as morse-api]
             [ratatouille.adapters.subscription :as adapters.subscription]
             [ratatouille.controllers.menu :as controllers.menu]
             [ratatouille.controllers.subscription :as controllers.subscription]
-            [common-clj.error.core :as error]))
+            [common-clj.error.core :as error]
+            [ratatouille.interceptors.user :as interceptors.user]
+            [ratatouille.controllers.reservation :as controllers.reservation]))
 
 (def admin-interceptor
   (interceptor/interceptor {:name  :admin-user
@@ -34,8 +38,25 @@
   (-> (adapters.subscription/wire->subscription chat-id)
       (controllers.subscription/bot-subscription! update (:connection datomic) config)))
 
+(defn menu
+  [{{:update/keys [chat-id] :as update} :update
+    {:keys [config datomic]}            :components}]
+  (morse-api/send-text (-> (:telegram config) :token)
+                       chat-id
+                       {:reply_markup (json/generate-string {:inline_keyboard [[{:text "Reservar Almoço" :callback_data "/reserve_lunch"}]
+                                                                               [{:text "Reservar Janta" :callback_data "/reserve_dinner"}]]})}
+                       "==Opções=="))
+
+(defn reserve-lunch!
+  [{{:update/keys [chat-id] :as update} :update
+    {:keys [config datomic]}            :components}]
+  (controllers.reservation/reserve-lunch! chat-id config))
+
 (def consumers
-  {:interceptors [admin-interceptor]
-   :bot-command  {:atualizar_cardapio {:interceptors [:admin-user]
-                                       :handler      upsert-menu!}
-                  :start              {:handler subscribe-to-bot!}}})
+  {:interceptors [admin-interceptor interceptors.user/active-user-check-interceptor]
+   :bot-command  {:update_menu   {:interceptors [:admin-user]
+                                  :handler      upsert-menu!}
+                  :reserve_lunch {:interceptors [:active-user-check-interceptor]
+                                  :handler      reserve-lunch!}
+                  :menu          {:handler menu}
+                  :start         {:handler subscribe-to-bot!}}})

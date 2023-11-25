@@ -30,7 +30,7 @@
                                               context)}))
 
 (def active-user-check-interceptor
-  (pedestal.interceptor/interceptor {:name  ::active-user-check-interceptor
+  (pedestal.interceptor/interceptor {:name  :active-user-check-interceptor
                                      :enter (fn [{{:update/keys [chat-id]} :update
                                                   {:keys [config datomic]} :components :as context}]
                                               (let [{:user/keys [status]} (database.user/lookup-by-telegram-chat-id (str chat-id) (-> datomic :connection dl/db))]

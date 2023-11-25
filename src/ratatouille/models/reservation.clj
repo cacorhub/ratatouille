@@ -6,11 +6,11 @@
 (def Status (apply s/enum statuses))
 
 (def reservation-skeleton
-  {:reservation/id          s/Uuid
-   :reservation/meal-id     s/Uuid
-   :reservation/redeemed-at Date
-   :reservation/created-at  Date
-   :reservation/status      Status})
+  {:reservation/id                           s/Uuid
+   :reservation/meal-id                      s/Uuid
+   (s/optional-key :reservation/redeemed-at) Date
+   :reservation/created-at                   Date
+   :reservation/status                       Status})
 
 (s/defschema Reservation
   reservation-skeleton)
