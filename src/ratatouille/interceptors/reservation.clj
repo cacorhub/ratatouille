@@ -14,7 +14,8 @@
   (pedestal.interceptor/interceptor {:name  :over-limit-reservations-lunch-check-interceptor
                                      :enter (fn [{{:update/keys [chat-id]} :update
                                                   {:keys [config datomic]} :components :as context}]
-                                              (let [reservation-max-limit (-> (:meal config) common-keyword/un-namespaced)
+                                              (let [meal-type' (common-keyword/un-namespaced meal-type)
+                                                    reservation-max-limit (-> (:meal config) meal-type' :reservation-max-limit)
                                                     {meal-id :meal/id} (database.meal/by-reference-date-with-type (jt/local-date) meal-type (-> datomic :connection dl/db))
                                                     reservations (database.reservation/by-meal meal-id (-> datomic :connection dl/db))]
                                                 (if (>= (count reservations) reservation-max-limit)
