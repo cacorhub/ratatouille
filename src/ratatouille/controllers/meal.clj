@@ -2,6 +2,7 @@
   (:require [clj-time.core :as t]
             [clj-time.predicates :as t-predicates]
             [datomic.client.api :as dl]
+            [java-time.api :as jt]
             [schema.core :as s]
             [ratatouille.db.datomic.meal :as database.meal]
             [ratatouille.logic.meal :as logic.meal]
@@ -9,7 +10,7 @@
 
 (s/defn mise-in-place-meal-job!
   [datomic-connection]
-  (let [reference-date (t/today)
+  (let [reference-date (jt/local-date)
         today-lunch-meal (database.meal/by-reference-date-with-type reference-date :meal.type/lunch (dl/db datomic-connection))
         today-dinner-meal (database.meal/by-reference-date-with-type reference-date :meal.type/dinner (dl/db datomic-connection))]
     (when (and (not today-lunch-meal) (t-predicates/weekday? (t/now)))

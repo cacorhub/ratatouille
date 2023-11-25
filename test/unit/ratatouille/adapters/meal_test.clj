@@ -1,6 +1,7 @@
 (ns ratatouille.adapters.meal-test
   (:require [clojure.test :refer :all]
             [fixtures.meal]
+            [java-time.api :as jt]
             [ratatouille.adapters.meal :as adapters.meal]
             [matcher-combinators.test :refer [match?]]
             [clj-time.types :as t-types]
@@ -24,10 +25,10 @@
     (is (match? {:meal/id             fixtures.meal/meal-id
                  :meal/reference-date fixtures.meal/reference-date
                  :meal/type           :meal.type/lunch
-                 :meal/created-at     t-types/date-time?}
+                 :meal/created-at     jt/instant?}
                 (adapters.meal/datomic->internal fixtures.meal/datomic-meal-lunch)))
     (is (match? {:meal/id             fixtures.meal/meal-id
                  :meal/reference-date fixtures.meal/reference-date
                  :meal/type           :meal.type/dinner
-                 :meal/created-at     t-types/date-time?}
+                 :meal/created-at     jt/instant?}
                 (adapters.meal/datomic->internal fixtures.meal/datomic-meal-dinner)))))

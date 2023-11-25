@@ -4,6 +4,7 @@
             [clj-time.types :as t-types]
             [common-clj.component.datomic :as component.datomic]
             [datomic.client.api :as dl]
+            [java-time.api :as jt]
             [ratatouille.db.datomic.config :as datomic.config]
             [ratatouille.db.datomic.meal :as database.meal]
             [matcher-combinators.test :refer [match?]]
@@ -32,4 +33,4 @@
 
       (is (nil? (database.meal/by-reference-date-with-type fixtures.meal/reference-date :meal.type/dinner (dl/db mocked-datomic))))
 
-      (is (nil? (database.meal/by-reference-date-with-type (t/local-date 2012 12 12) :meal.type/lunch (dl/db mocked-datomic)))))))
+      (is (nil? (database.meal/by-reference-date-with-type (jt/local-date 2012 12 12) :meal.type/lunch (dl/db mocked-datomic)))))))

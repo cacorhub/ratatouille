@@ -1,10 +1,11 @@
 (ns fixtures.meal
   (:require [clj-time.core :as t]
-            [clojure.test :refer :all])
+            [clojure.test :refer :all]
+            [java-time.api :as jt])
   (:import (java.util Date)))
 
 (def meal-id (random-uuid))
-(def reference-date (t/local-date 1998 12 26))
+(def reference-date (jt/local-date 1998 12 26))
 (def created-at (t/now))
 
 (def meal-lunch
