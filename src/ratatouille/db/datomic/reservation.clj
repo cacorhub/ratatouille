@@ -8,12 +8,13 @@
    datomic-connection]
   (dl/transact datomic-connection {:tx-data [reservation]}))
 
-(s/defn by-meal :- (s/maybe models.reservation/Reservation)
+(s/defn by-meal-with-user :- (s/maybe models.reservation/Reservation)
   [meal-id :- s/Uuid
+   user-id :- s/Uuid
    datomic-db]
   (some-> (dl/q '[:find (pull ?reservation [*])
-                  :in $ ?meal-id
+                  :in $ ?meal-id ?user-id
                   :where [?reservation :reservation/meal-id ?meal-id]
-                  [?meal :meal/type ?type]] datomic-db meal-id)
+                  [?reservation :reservation/user-id ?user-id]] datomic-db meal-id user-id)
           ffirst
           (dissoc :db/id)))
