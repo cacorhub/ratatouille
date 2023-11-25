@@ -13,7 +13,8 @@
             [ratatouille.controllers.subscription :as controllers.subscription]
             [common-clj.error.core :as error]
             [ratatouille.interceptors.user :as interceptors.user]
-            [ratatouille.controllers.user :as controllers.user]))
+            [ratatouille.controllers.user :as controllers.user]
+            [ratatouille.interceptors.reservation :as interceptors.reservation]))
 
 (def admin-interceptor
   (interceptor/interceptor {:name  :admin-user
@@ -68,14 +69,18 @@
   (controllers.reservation/reserve-dinner! chat-id (jt/local-date-time) (:connection datomic) config))
 
 (def consumers
-  {:interceptors [admin-interceptor interceptors.user/active-user-check-interceptor]
+  {:interceptors [admin-interceptor interceptors.user/active-user-check-interceptor
+                  interceptors.reservation/over-limit-reservations-lunch-check-interceptor
+                  interceptors.reservation/over-limit-reservations-dinner-check-interceptor]
    :bot-command  {:update_menu     {:interceptors [:admin-user]
                                     :handler      upsert-menu!}
                   :ativar_cadastro {:interceptors [:admin-user]
                                     :handler      activate-user!}
-                  :reserve_lunch   {:interceptors [:active-user-check-interceptor]
+                  :reserve_lunch   {:interceptors [:active-user-check-interceptor
+                                                   :over-limit-reservations-lunch-check-interceptor]
                                     :handler      reserve-lunch!}
-                  :reserve_dinner  {:interceptors [:active-user-check-interceptor]
+                  :reserve_dinner  {:interceptors [:active-user-check-interceptor
+                                                   :over-limit-reservations-dinner-check-interceptor]
                                     :handler      reserve-dinner!}
                   :menu            {:handler menu}
                   :start           {:handler subscribe-to-bot!}}})
