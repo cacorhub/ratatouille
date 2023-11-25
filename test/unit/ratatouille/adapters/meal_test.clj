@@ -4,7 +4,6 @@
             [java-time.api :as jt]
             [ratatouille.adapters.meal :as adapters.meal]
             [matcher-combinators.test :refer [match?]]
-            [clj-time.types :as t-types]
             [schema.test :as s]))
 
 (s/deftest internal->datomic-test
