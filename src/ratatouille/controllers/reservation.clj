@@ -30,3 +30,24 @@
           qr-code-file (clj.qrgen/as-file (clj.qrgen/from (str (:reservation/id reservation))) (str "/tmp" (str (:reservation/id reservation)) ".png"))]
       (diplomat.telegram.producer/notify-reservation-qr-code! chat-id qr-code-file config))
     (diplomat.telegram.producer/notify-lunch-reservation-outside-time-window! chat-id config)))
+
+(s/defn with-in-time-window-for-dinner-reservation? :- s/Bool
+  [now :- LocalTime]
+  (and (jt/after? now (jt/local-time 12 0))
+       (jt/before? now (jt/local-time 16 0))))
+
+(s/defn reserve-dinner!
+  [chat-id :- s/Str
+   as-of :- LocalTime
+   datomic-connection
+   config]
+  (if (with-in-time-window-for-dinner-reservation? (jt/local-time as-of))
+    (let [{:user/keys [id]} (database.user/lookup-by-telegram-chat-id (str chat-id) (dl/db datomic-connection))
+          {meal-id :meal/id} (database.meal/by-reference-date-with-type (jt/local-date as-of) :meal.type/dinner (dl/db datomic-connection))
+          reservation (if-let [existent-reservation (database.reservation/by-meal meal-id (dl/db datomic-connection))]
+                        existent-reservation
+                        (logic.reservation/->reservation meal-id id))
+          _ (database.reservation/insert! reservation datomic-connection)
+          qr-code-file (clj.qrgen/as-file (clj.qrgen/from (str (:reservation/id reservation))) (str "/tmp" (str (:reservation/id reservation)) ".png"))]
+      (diplomat.telegram.producer/notify-reservation-qr-code! chat-id qr-code-file config))
+    (diplomat.telegram.producer/notify-dinner-reservation-outside-time-window! chat-id config)))

@@ -62,6 +62,11 @@
     {:keys [config datomic]}            :components}]
   (controllers.reservation/reserve-lunch! chat-id (jt/local-date-time) (:connection datomic) config))
 
+(defn reserve-dinner!
+  [{{:update/keys [chat-id] :as update} :update
+    {:keys [config datomic]}            :components}]
+  (controllers.reservation/reserve-dinner! chat-id (jt/local-date-time) (:connection datomic) config))
+
 (def consumers
   {:interceptors [admin-interceptor interceptors.user/active-user-check-interceptor]
    :bot-command  {:update_menu     {:interceptors [:admin-user]
@@ -70,5 +75,7 @@
                                     :handler      activate-user!}
                   :reserve_lunch   {:interceptors [:active-user-check-interceptor]
                                     :handler      reserve-lunch!}
+                  :reserve_dinner  {:interceptors [:active-user-check-interceptor]
+                                    :handler      reserve-dinner!}
                   :menu            {:handler menu}
                   :start           {:handler subscribe-to-bot!}}})
