@@ -45,3 +45,10 @@
   (morse-api/send-photo (:token telegram) telegram-chat-id
                         {:caption "Ficha de reserva"}
                         qr-code-file))
+
+(s/defn notify-reservations-over-limit
+  [telegram-chat-id :- s/Str
+   {:keys [telegram]}]
+  (morse-api/send-text (:token telegram)
+                       telegram-chat-id
+                       "Reserva não concluida. Atingimos o limite máximo diário de reservas."))

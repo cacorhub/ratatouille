@@ -1,31 +1,28 @@
 (ns ratatouille.interceptors.reservation
-  (:require [datomic.client.api :as dl]
+  (:require [common-clj.keyword.core :as common-keyword]
+            [datomic.client.api :as dl]
             [io.pedestal.interceptor :as pedestal.interceptor]
             [java-time.api :as jt]
-            [morse.api :as morse-api]
             [ratatouille.db.datomic.meal :as database.meal]
-            [ratatouille.db.datomic.reservation :as database.reservation]))
+            [ratatouille.db.datomic.reservation :as database.reservation]
+            [ratatouille.models.meal :as models.meal]
+            [ratatouille.diplomat.telegram.producer :as diplomat.telegram.producer]
+            [schema.core :as s]))
 
-(def over-limit-reservations-lunch-check-interceptor
+(s/defn ^:private over-limit-reservations-check-interceptor
+  [meal-type :- models.meal/Type]
   (pedestal.interceptor/interceptor {:name  :over-limit-reservations-lunch-check-interceptor
                                      :enter (fn [{{:update/keys [chat-id]} :update
                                                   {:keys [config datomic]} :components :as context}]
-                                              (let [{meal-id :meal/id} (database.meal/by-reference-date-with-type (jt/local-date) :meal.type/lunch (-> datomic :connection dl/db))
+                                              (let [reservation-max-limit (-> (:meal config) common-keyword/un-namespaced)
+                                                    {meal-id :meal/id} (database.meal/by-reference-date-with-type (jt/local-date) meal-type (-> datomic :connection dl/db))
                                                     reservations (database.reservation/by-meal meal-id (-> datomic :connection dl/db))]
-                                                (if (>= (count reservations) 250)
-                                                  (morse-api/send-text (-> (:telegram config) :token)
-                                                                       chat-id
-                                                                       "Reserva não concluida. Atingimos o limite de reservas.")
+                                                (if (>= (count reservations) reservation-max-limit)
+                                                  (diplomat.telegram.producer/notify-reservations-over-limit chat-id config)
                                                   context)))}))
 
+(def over-limit-reservations-lunch-check-interceptor
+  (over-limit-reservations-check-interceptor :meal.type/lunch))
+
 (def over-limit-reservations-dinner-check-interceptor
-  (pedestal.interceptor/interceptor {:name  :over-limit-reservations-dinner-check-interceptor
-                                     :enter (fn [{{:update/keys [chat-id]} :update
-                                                  {:keys [config datomic]} :components :as context}]
-                                              (let [{meal-id :meal/id} (database.meal/by-reference-date-with-type (jt/local-date) :meal.type/dinner (-> datomic :connection dl/db))
-                                                    reservations (database.reservation/by-meal meal-id (-> datomic :connection dl/db))]
-                                                (if (>= (count reservations) 250)
-                                                  (morse-api/send-text (-> (:telegram config) :token)
-                                                                       chat-id
-                                                                       "Reserva não concluida. Atingimos o limite de reservas.")
-                                                  context)))}))
+  (over-limit-reservations-check-interceptor :meal.type/dinner))
