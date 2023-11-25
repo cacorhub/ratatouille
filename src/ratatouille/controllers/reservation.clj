@@ -12,7 +12,7 @@
 
 (s/defn with-in-time-window-for-lunch-reservation? :- s/Bool
   [now :- LocalTime]
-  (and (jt/after? now (jt/local-time 5 0))
+  (and (jt/after? now (jt/local-time 6 0))
        (jt/before? now (jt/local-time 12 0))))
 
 (s/defn reserve-lunch!
