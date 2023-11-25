@@ -25,3 +25,9 @@
                   :where [?user :user/cpf ?cpf]] datomic-database cpf)
           ffirst
           (dissoc :db/id)))
+
+(s/defn activate!
+  [user-id :- s/Uuid
+   datomic-connection]
+  (dl/transact datomic-connection {:tx-data [{:user/id     user-id
+                                              :user/status :user.status/active}]}))
