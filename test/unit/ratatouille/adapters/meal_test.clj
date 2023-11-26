@@ -1,10 +1,11 @@
 (ns ratatouille.adapters.meal-test
-  (:require [clojure.test :refer :all]
-            [fixtures.meal]
-            [java-time.api :as jt]
-            [ratatouille.adapters.meal :as adapters.meal]
-            [matcher-combinators.test :refer [match?]]
-            [schema.test :as s]))
+  (:require
+   [clojure.test :refer [is testing]]
+   [fixtures.meal]
+   [java-time.api :as jt]
+   [matcher-combinators.test :refer [match?]]
+   [ratatouille.adapters.meal :as adapters.meal]
+   [schema.test :as s]))
 
 (s/deftest internal->datomic-test
   (testing "Given a internal meal entity, we can export to the datomic schema"

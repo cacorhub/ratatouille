@@ -1,9 +1,10 @@
 (ns ratatouille.logic.meal-test
-  (:require [clojure.test :refer :all]
-            [java-time.api :as jt]
-            [ratatouille.logic.meal :as logic.meal]
-            [matcher-combinators.test :refer [match?]]
-            [schema.test :as s]))
+  (:require
+   [clojure.test :refer [is testing]]
+   [java-time.api :as jt]
+   [matcher-combinators.test :refer [match?]]
+   [ratatouille.logic.meal :as logic.meal]
+   [schema.test :as s]))
 
 (s/deftest ->meal-test
   (testing "Given a reference-date and type we can create a meal entity"

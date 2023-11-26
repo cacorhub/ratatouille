@@ -1,5 +1,6 @@
 (ns ratatouille.models.user
-  (:require [schema.core :as s]))
+  (:require
+   [schema.core :as s]))
 
 (def statuses #{:user.status/pending-activation :user.status/active})
 

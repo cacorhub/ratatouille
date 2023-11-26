@@ -1,8 +1,9 @@
 (ns ratatouille.adapters.subscription-test
-  (:require [clojure.test :refer :all]
-            [ratatouille.adapters.subscription :as adapters.subscription]
-            [schema.test :as s]
-            [matcher-combinators.test :refer [match?]]))
+  (:require
+   [clojure.test :refer [is testing]]
+   [matcher-combinators.test :refer [match?]]
+   [ratatouille.adapters.subscription :as adapters.subscription]
+   [schema.test :as s]))
 
 (s/deftest wire->subscription-test
   (testing "Given a Telegram chat id we can create a internal subscription entity"

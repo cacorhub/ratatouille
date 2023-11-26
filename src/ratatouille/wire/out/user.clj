@@ -1,9 +1,10 @@
 (ns ratatouille.wire.out.user
-  (:require [common-clj.schema.core :as common-schema]
-            [schema-tools.core :as schema-tools]
-            [ratatouille.models.user :as models.user]
-            [common-clj.keyword.core :as common-keyword]
-            [schema.core :as s]))
+  (:require
+   [common-clj.keyword.core :as common-keyword]
+   [common-clj.schema.core :as common-schema]
+   [ratatouille.models.user :as models.user]
+   [schema-tools.core :as schema-tools]
+   [schema.core :as s]))
 
 (def Status (->> models.user/statuses
                  (map common-keyword/un-namespaced)

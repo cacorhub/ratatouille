@@ -1,8 +1,10 @@
 (ns ratatouille.logic.meal
-  (:require [java-time.api :as jt]
-            [ratatouille.models.meal :as models.meal]
-            [schema.core :as s])
-  (:import (java.time LocalDate)))
+  (:require
+   [java-time.api :as jt]
+   [ratatouille.models.meal :as models.meal]
+   [schema.core :as s])
+  (:import
+   (java.time LocalDate)))
 
 (s/defn ->meal :- models.meal/Meal
   [reference-date :- LocalDate

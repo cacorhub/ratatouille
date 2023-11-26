@@ -1,7 +1,8 @@
 (ns ratatouille.diplomat.http-server.user
-  (:require [schema.core :as s]
-            [ratatouille.controllers.user :as controllers.user]
-            [ratatouille.adapters.user :as adapters.user]))
+  (:require
+   [ratatouille.adapters.user :as adapters.user]
+   [ratatouille.controllers.user :as controllers.user]
+   [schema.core :as s]))
 
 (s/defn create!
   [{{:keys [user]}                             :json-params

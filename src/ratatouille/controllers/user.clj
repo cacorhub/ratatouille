@@ -1,9 +1,10 @@
 (ns ratatouille.controllers.user
-  (:require [datomic.client.api :as dl]
-            [ratatouille.models.user :as models.user]
-            [schema.core :as s]
-            [ratatouille.db.datomic.user :as database.user]
-            [ratatouille.diplomat.telegram.producer :as diplomat.telegram.producer]))
+  (:require
+   [datomic.client.api :as dl]
+   [ratatouille.db.datomic.user :as database.user]
+   [ratatouille.diplomat.telegram.producer :as diplomat.telegram.producer]
+   [ratatouille.models.user :as models.user]
+   [schema.core :as s]))
 
 (s/defn create! :- models.user/User
   [user :- models.user/User

@@ -1,7 +1,8 @@
 (ns ratatouille.db.datomic.reservation
-  (:require [datomic.client.api :as dl]
-            [ratatouille.models.reservation :as models.reservation]
-            [schema.core :as s]))
+  (:require
+   [datomic.client.api :as dl]
+   [ratatouille.models.reservation :as models.reservation]
+   [schema.core :as s]))
 
 (s/defn insert!
   [reservation :- models.reservation/Reservation

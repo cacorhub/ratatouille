@@ -1,6 +1,8 @@
 (ns ratatouille.models.subscription
-  (:require [schema.core :as s])
-  (:import (java.util Date)))
+  (:require
+   [schema.core :as s])
+  (:import
+   (java.util Date)))
 
 (def subscription-skeleton
   {:subscription/id         s/Uuid

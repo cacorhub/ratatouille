@@ -1,14 +1,16 @@
 (ns ratatouille.controllers.reservation
-  (:require [datomic.client.api :as dl]
-            [ratatouille.db.datomic.meal :as database.meal]
-            [ratatouille.db.datomic.user :as database.user]
-            [ratatouille.diplomat.telegram.producer :as diplomat.telegram.producer]
-            [java-time.api :as jt]
-            [schema.core :as s]
-            [ratatouille.logic.reservation :as logic.reservation]
-            [ratatouille.db.datomic.reservation :as database.reservation]
-            [clj.qrgen])
-  (:import (java.time LocalTime)))
+  (:require
+   [clj.qrgen]
+   [datomic.client.api :as dl]
+   [java-time.api :as jt]
+   [ratatouille.db.datomic.meal :as database.meal]
+   [ratatouille.db.datomic.reservation :as database.reservation]
+   [ratatouille.db.datomic.user :as database.user]
+   [ratatouille.diplomat.telegram.producer :as diplomat.telegram.producer]
+   [ratatouille.logic.reservation :as logic.reservation]
+   [schema.core :as s])
+  (:import
+   (java.time LocalTime)))
 
 (s/defn reserve-lunch!
   [chat-id :- s/Str

@@ -1,6 +1,8 @@
 (ns ratatouille.models.reservation
-  (:require [schema.core :as s])
-  (:import (java.util Date)))
+  (:require
+   [schema.core :as s])
+  (:import
+   (java.util Date)))
 
 (def statuses #{:reservation.status/ready :reservation.status/redeemed})
 (def Status (apply s/enum statuses))

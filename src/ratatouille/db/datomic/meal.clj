@@ -1,9 +1,11 @@
 (ns ratatouille.db.datomic.meal
-  (:require [datomic.client.api :as dl]
-            [ratatouille.models.meal :as models.meal]
-            [schema.core :as s]
-            [ratatouille.adapters.meal :as adapters.meal])
-  (:import (java.time LocalDate)))
+  (:require
+   [datomic.client.api :as dl]
+   [ratatouille.adapters.meal :as adapters.meal]
+   [ratatouille.models.meal :as models.meal]
+   [schema.core :as s])
+  (:import
+   (java.time LocalDate)))
 
 (s/defn insert!
   [meal :- models.meal/Meal

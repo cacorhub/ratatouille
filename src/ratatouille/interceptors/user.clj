@@ -1,10 +1,11 @@
 (ns ratatouille.interceptors.user
-  (:require [common-clj.error.core :as common-error]
-            [datomic.client.api :as dl]
-            [io.pedestal.interceptor :as pedestal.interceptor]
-            [cadastro-de-pessoa.cpf]
-            [morse.api :as morse-api]
-            [ratatouille.db.datomic.user :as database.user]))
+  (:require
+   [cadastro-de-pessoa.cpf]
+   [common-clj.error.core :as common-error]
+   [datomic.client.api :as dl]
+   [io.pedestal.interceptor :as pedestal.interceptor]
+   [morse.api :as morse-api]
+   [ratatouille.db.datomic.user :as database.user]))
 
 (def cpf-validation-interceptor
   (pedestal.interceptor/interceptor {:name  ::cpf-validation-interceptor
