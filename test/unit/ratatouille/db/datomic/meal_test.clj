@@ -1,7 +1,5 @@
 (ns ratatouille.db.datomic.meal-test
-  (:require [clj-time.core :as t]
-            [clojure.test :refer :all]
-            [clj-time.types :as t-types]
+  (:require [clojure.test :refer :all]
             [common-clj.component.datomic :as component.datomic]
             [datomic.client.api :as dl]
             [java-time.api :as jt]
