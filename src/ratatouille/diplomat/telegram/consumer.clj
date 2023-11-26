@@ -1,21 +1,21 @@
 (ns ratatouille.diplomat.telegram.consumer
   (:require
-   [cheshire.core :as json]
-   [clojure.java.io :as io]
-   [clojure.string :as string]
-   [common-clj.component.telegram.diplomat.http-client :as component.telegram.diplomat.http-client]
-   [common-clj.error.core :as error]
-   [datomic.client.api :as dl]
-   [io.pedestal.interceptor :as interceptor]
-   [java-time.api :as jt]
-   [morse.api :as morse-api]
-   [ratatouille.adapters.subscription :as adapters.subscription]
-   [ratatouille.controllers.menu :as controllers.menu]
-   [ratatouille.controllers.reservation :as controllers.reservation]
-   [ratatouille.controllers.subscription :as controllers.subscription]
-   [ratatouille.controllers.user :as controllers.user]
-   [ratatouille.interceptors.reservation :as interceptors.reservation]
-   [ratatouille.interceptors.user :as interceptors.user]))
+    [cheshire.core :as json]
+    [clojure.java.io :as io]
+    [clojure.string :as string]
+    [common-clj.component.telegram.diplomat.http-client :as component.telegram.diplomat.http-client]
+    [common-clj.error.core :as error]
+    [datomic.client.api :as dl]
+    [io.pedestal.interceptor :as interceptor]
+    [java-time.api :as jt]
+    [morse.api :as morse-api]
+    [ratatouille.adapters.subscription :as adapters.subscription]
+    [ratatouille.controllers.menu :as controllers.menu]
+    [ratatouille.controllers.reservation :as controllers.reservation]
+    [ratatouille.controllers.subscription :as controllers.subscription]
+    [ratatouille.controllers.user :as controllers.user]
+    [ratatouille.interceptors.reservation :as interceptors.reservation]
+    [ratatouille.interceptors.user :as interceptors.user]))
 
 (def admin-interceptor
   (interceptor/interceptor {:name  :admin-user
@@ -44,15 +44,15 @@
       (controllers.subscription/bot-subscription! update (:connection datomic) config)))
 
 (defn activate-user!
-  [{{:update/keys [message chat-id]} :update
-    {:keys [config datomic]}         :components}]
+  [{{:update/keys [message chat-id]}    :update
+    {:keys [telegram-producer datomic]} :components}]
   (let [args (-> (string/split message #" ") rest)
         user-telegram-chat-id (-> args first Integer/parseInt)]
-    (controllers.user/activate! (str user-telegram-chat-id) chat-id (:connection datomic) config)))
+    (controllers.user/activate! (str user-telegram-chat-id) chat-id (:connection datomic) telegram-producer)))
 
 (defn menu
   [{{:update/keys [chat-id]} :update
-    {:keys [config]}            :components}]
+    {:keys [config]}         :components}]
   (morse-api/send-text (-> (:telegram config) :token)
                        chat-id
                        {:reply_markup (json/generate-string {:inline_keyboard [[{:text "Reservar Almoço" :callback_data "/reserve_lunch"}]
@@ -61,12 +61,12 @@
 
 (defn reserve-lunch!
   [{{:update/keys [chat-id]} :update
-    {:keys [config datomic]}            :components}]
+    {:keys [config datomic]} :components}]
   (controllers.reservation/reserve-lunch! chat-id (jt/local-date-time) (:connection datomic) config))
 
 (defn reserve-dinner!
   [{{:update/keys [chat-id]} :update
-    {:keys [config datomic]}            :components}]
+    {:keys [config datomic]} :components}]
   (controllers.reservation/reserve-dinner! chat-id (jt/local-date-time) (:connection datomic) config))
 
 (def consumers

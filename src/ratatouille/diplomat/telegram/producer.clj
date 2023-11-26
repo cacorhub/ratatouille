@@ -1,10 +1,10 @@
 (ns ratatouille.diplomat.telegram.producer
   (:require
-   [common-clj.component.telegram.producer :as component.telegram.producer]
-   [morse.api :as morse-api]
-   [schema.core :as s])
+    [common-clj.component.telegram.producer :as component.telegram.producer]
+    [morse.api :as morse-api]
+    [schema.core :as s])
   (:import
-   (java.io File)))
+    (java.io File)))
 
 (s/defn notify-user-creation!
   [telegram-chat-id :- s/Str
@@ -15,17 +15,17 @@
 
 (s/defn notify-user-activation!
   [telegram-chat-id :- s/Str
-   {:keys [telegram]}]
-  (morse-api/send-text (:token telegram)
-                       telegram-chat-id
-                       "O usuário foi ativado com sucesso."))
+   telegram-producer]
+  (component.telegram.producer/send-text! {:chat-id telegram-chat-id
+                                           :text    "O usuário foi ativado com sucesso."}
+                                          telegram-producer))
 
 (s/defn notify-user-not-found!
   [telegram-chat-id :- s/Str
-   {:keys [telegram]}]
-  (morse-api/send-text (:token telegram)
-                       telegram-chat-id
-                       "Usuário não encontrado"))
+   telegram-producer]
+  (component.telegram.producer/send-text! {:chat-id telegram-chat-id
+                                           :text    "Usuário não encontrado"}
+                                          telegram-producer))
 
 (s/defn notify-lunch-reservation-outside-time-window!
   [telegram-chat-id :- s/Str
