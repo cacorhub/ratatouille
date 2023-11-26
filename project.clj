@@ -5,7 +5,7 @@
             :url  "https://www.eclipse.org/legal/epl-2.0/"}
 
   :dependencies [[org.clojure/clojure "1.11.1"]
-                 [net.clojars.macielti/common-clj "24.46.47"]
+                 [net.clojars.macielti/common-clj "24.47.47"]
                  [clojure.java-time "1.4.2"]
                  [hashp "0.2.2"]
                  [metosin/schema-tools "0.13.1"]

@@ -1,14 +1,15 @@
 (ns ratatouille.diplomat.telegram.producer
   (:require [morse.api :as morse-api]
-            [schema.core :as s])
+            [schema.core :as s]
+            [common-clj.component.telegram.producer :as component.telegram.producer])
   (:import (java.io File)))
 
 (s/defn notify-user-creation!
   [telegram-chat-id :- s/Str
-   {:keys [telegram]}]
-  (morse-api/send-text (:token telegram)
-                       telegram-chat-id
-                       (str "Conta criada com sucesso, esse é o seu código de ativação: " telegram-chat-id)))
+   telegram-producer]
+  (component.telegram.producer/send-text! {:chat-id telegram-chat-id
+                                           :text    (str "Conta criada com sucesso, esse é o seu código de ativação: " telegram-chat-id)}
+                                          telegram-producer))
 
 (s/defn notify-user-activation!
   [telegram-chat-id :- s/Str

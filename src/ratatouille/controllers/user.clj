@@ -7,10 +7,10 @@
 
 (s/defn create! :- models.user/User
   [user :- models.user/User
-   config
-   datomic-connection]
+   datomic-connection
+   telegram-producer]
   (database.user/insert! user datomic-connection)
-  (diplomat.telegram.producer/notify-user-creation! (:user/telegram-chat-id user) config)
+  (diplomat.telegram.producer/notify-user-creation! (:user/telegram-chat-id user) telegram-producer)
   user)
 
 (s/defn activate!

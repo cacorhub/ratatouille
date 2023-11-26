@@ -6,6 +6,7 @@
             [common-clj.component.config :as component.config]
             [common-clj.component.http-client :as component.http-client]
             [common-clj.component.telegram.consumer :as component.telegram.consumer]
+            [common-clj.component.telegram.producer :as component.telegram.producer]
             [ratatouille.diplomat.telegram.consumer :as diplomat.telegram.consumer]
             [common-clj.component.datomic :as component.datomic]
             [ratatouille.db.datomic.config :as datomic.config]
@@ -22,10 +23,11 @@
     :jobs (component/using (job/new-jobs) [:config :datomic])
     :http-client (component/using (component.http-client/new-http-client) [:config])
     :telegram-consumer (component/using (component.telegram.consumer/new-telegram-consumer diplomat.telegram.consumer/consumers) [:config :http-client :datomic])
+    :telegram-producer (component/using (component.telegram.producer/new-telegram-producer) [:config])
     :routes (component/using (component.routes/new-routes diplomat.http-server/routes) [:config])
     :rate-limiter (component.rate-limiter/new-rate-limiter interceptors.rate-limiter/rate-limiters-definition)
     :prometheus (component/using (component.prometheus/new-prometheus diplomat.prometheus/metrics-definition) [:config])
-    :service (component/using (component.service/new-service) [:routes :config :datomic :rate-limiter :prometheus])))
+    :service (component/using (component.service/new-service) [:routes :config :datomic :rate-limiter :prometheus :telegram-producer])))
 
 (defn start-system! []
   (component/start system))
@@ -36,8 +38,9 @@
     :datomic (component/using (component.datomic/new-datomic-local datomic.config/schemas) [:config])
     :jobs (component/using (job/new-jobs) [:config :datomic])
     :http-client (component/using (component.http-client/new-http-client) [:config])
-    #_:telegram-consumer #_(component/using (component.telegram.consumer/new-mock-telegram-consumer diplomat.telegram.consumer/consumers) [:config :http-client :datomic])
+    :telegram-consumer (component/using (component.telegram.consumer/new-mock-telegram-consumer diplomat.telegram.consumer/consumers) [:config :http-client :datomic])
+    :telegram-producer (component/using (component.telegram.producer/new-telegram-producer) [:config])
     :routes (component/using (component.routes/new-routes diplomat.http-server/routes) [:config])
     :rate-limiter (component.rate-limiter/new-rate-limiter interceptors.rate-limiter/rate-limiters-definition)
     :prometheus (component/using (component.prometheus/new-prometheus diplomat.prometheus/metrics-definition) [:config])
-    :service (component/using (component.service/new-service) [:routes :config :datomic :rate-limiter :prometheus])))
+    :service (component/using (component.service/new-service) [:routes :config :datomic :rate-limiter :prometheus :telegram-producer])))

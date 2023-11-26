@@ -4,9 +4,9 @@
             [ratatouille.adapters.user :as adapters.user]))
 
 (s/defn create!
-  [{{:keys [user]}           :json-params
-    {:keys [datomic config]} :components}]
+  [{{:keys [user]}                             :json-params
+    {:keys [datomic telegram-producer]} :components}]
   {:status 200
    :body   {:user (-> (adapters.user/wire->internal user)
-                      (controllers.user/create! config (:connection datomic))
+                      (controllers.user/create! (:connection datomic) telegram-producer)
                       adapters.user/internal->wire)}})

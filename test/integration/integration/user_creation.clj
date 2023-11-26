@@ -5,11 +5,8 @@
             [ratatouille.components :as components]
             [common-clj.component.helper.core :as component.helper]
             [integration.aux.http :as aux.http]
-            [ratatouille.diplomat.telegram.producer :as diplomat.telegram.producer]
             [schema.test :as s]
             [matcher-combinators.test :refer [match?]]
-            [mockfn.macros :as mfn]
-            [morse.api :as morse-api]
             [mockfn.matchers]
             [clj-uuid]
             [fixtures.user]))
@@ -17,7 +14,9 @@
 (s/deftest user-creation
   (let [system (component/start components/system-test)
         service-fn (-> (component.helper/get-component-content :service system)
-                       :io.pedestal.http/service-fn)]
+                       :io.pedestal.http/service-fn)
+        producer (component.helper/get-component-content :telegram-producer system)]
+
     (testing "That we can create a user"
       (is (match? {:status 200
                    :body   {:user {:id               clj-uuid/uuid-string?
@@ -25,8 +24,11 @@
                                    :name             "Manuel Gomes"
                                    :telegram-chat-id "123456789"
                                    :status           "pending-activation"}}}
-                  (mfn/verifying [(morse-api/send-text (mockfn.matchers/any) (mockfn.matchers/any) (mockfn.matchers/any)) :result (mockfn.matchers/exactly 1)]
-                                 (aux.http/create-user! fixtures.user/wire-user service-fn)))))
+                  (aux.http/create-user! fixtures.user/wire-user service-fn)))
+
+      (is (= [{:chat-id "123456789"
+               :text    "Conta criada com sucesso, esse é o seu código de ativação: 123456789"}]
+             @(:produced producer))))
     (component/stop system)))
 
 (s/deftest user-creation-invalid-cpf
@@ -47,8 +49,7 @@
                        :io.pedestal.http/service-fn)]
     (testing "That we can't create an user given a CPF that is already taken"
       (is (match? {:status 200}
-                  (mfn/verifying [(morse-api/send-text (mockfn.matchers/any) (mockfn.matchers/any) (mockfn.matchers/any)) :result (mockfn.matchers/exactly 1)]
-                                 (aux.http/create-user! fixtures.user/wire-user service-fn))))
+                  (aux.http/create-user! fixtures.user/wire-user service-fn)))
       (is (match? {:status 400
                    :body   {:error   "cpf-already-taken"
                             :message "The CPF provided is already in use"
@@ -67,8 +68,7 @@
                                    :name             "Manuel Gomes"
                                    :telegram-chat-id "123456789"
                                    :status           "pending-activation"}}}
-                  (mfn/verifying [(diplomat.telegram.producer/notify-user-creation! (mockfn.matchers/any) (mockfn.matchers/any)) :result (mockfn.matchers/exactly 1)]
-                                 (aux.http/create-user! fixtures.user/wire-user service-fn)))))
+                  (aux.http/create-user! fixtures.user/wire-user service-fn))))
 
     (testing "Given a rate limit of 4 per min, the second request in the 1 minute time window should be accepted"
       (is (match? {:status 400
