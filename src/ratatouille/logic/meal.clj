@@ -1,5 +1,5 @@
 (ns ratatouille.logic.meal
-  (:require [clj-time.core :as t]
+  (:require [java-time.api :as jt]
             [ratatouille.models.meal :as models.meal]
             [schema.core :as s])
   (:import (java.time LocalDate)))
@@ -9,5 +9,5 @@
    type :- models.meal/Type]
   {:meal/id             (random-uuid)
    :meal/reference-date reference-date
-   :meal/created-at     (t/now)
+   :meal/created-at     (jt/instant)
    :meal/type           type})

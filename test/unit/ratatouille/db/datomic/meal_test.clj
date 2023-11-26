@@ -18,7 +18,7 @@
       (is (match? {:meal/id             fixtures.meal/meal-id
                    :meal/type           :meal.type/lunch
                    :meal/reference-date fixtures.meal/reference-date
-                   :meal/created-at     t-types/date-time?}
+                   :meal/created-at     jt/instant?}
                   (database.meal/lookup fixtures.meal/meal-id (dl/db mocked-datomic)))))))
 
 (s/deftest by-reference-date-with-type-test
@@ -28,7 +28,7 @@
       (is (match? {:meal/id             fixtures.meal/meal-id
                    :meal/type           :meal.type/lunch
                    :meal/reference-date fixtures.meal/reference-date
-                   :meal/created-at     t-types/date-time?}
+                   :meal/created-at     jt/instant?}
                   (database.meal/by-reference-date-with-type fixtures.meal/reference-date :meal.type/lunch (dl/db mocked-datomic))))
 
       (is (nil? (database.meal/by-reference-date-with-type fixtures.meal/reference-date :meal.type/dinner (dl/db mocked-datomic))))

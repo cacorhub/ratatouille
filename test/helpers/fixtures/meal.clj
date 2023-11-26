@@ -6,7 +6,7 @@
 
 (def meal-id (random-uuid))
 (def reference-date (jt/local-date 1998 12 26))
-(def created-at (t/now))
+(def created-at (jt/instant))
 
 (def meal-lunch
   {:meal/id             meal-id
