@@ -1,21 +1,21 @@
 (ns ratatouille.diplomat.telegram.consumer
   (:require
-    [cheshire.core :as json]
-    [clojure.java.io :as io]
-    [clojure.string :as string]
-    [common-clj.component.telegram.diplomat.http-client :as component.telegram.diplomat.http-client]
-    [common-clj.error.core :as error]
-    [datomic.client.api :as dl]
-    [io.pedestal.interceptor :as interceptor]
-    [java-time.api :as jt]
-    [morse.api :as morse-api]
-    [ratatouille.adapters.subscription :as adapters.subscription]
-    [ratatouille.controllers.menu :as controllers.menu]
-    [ratatouille.controllers.reservation :as controllers.reservation]
-    [ratatouille.controllers.subscription :as controllers.subscription]
-    [ratatouille.controllers.user :as controllers.user]
-    [ratatouille.interceptors.reservation :as interceptors.reservation]
-    [ratatouille.interceptors.user :as interceptors.user]))
+   [cheshire.core :as json]
+   [clojure.java.io :as io]
+   [clojure.string :as string]
+   [common-clj.component.telegram.diplomat.http-client :as component.telegram.diplomat.http-client]
+   [common-clj.error.core :as error]
+   [datomic.client.api :as dl]
+   [io.pedestal.interceptor :as interceptor]
+   [java-time.api :as jt]
+   [morse.api :as morse-api]
+   [ratatouille.adapters.subscription :as adapters.subscription]
+   [ratatouille.controllers.menu :as controllers.menu]
+   [ratatouille.controllers.reservation :as controllers.reservation]
+   [ratatouille.controllers.subscription :as controllers.subscription]
+   [ratatouille.controllers.user :as controllers.user]
+   [ratatouille.interceptors.reservation :as interceptors.reservation]
+   [ratatouille.interceptors.user :as interceptors.user]))
 
 (def admin-interceptor
   (interceptor/interceptor {:name  :admin-user
@@ -70,7 +70,7 @@
   (controllers.reservation/reserve-dinner! chat-id (jt/local-date-time) (:connection datomic) config))
 
 (def consumers
-  {:bot-command {:update_menu     {:interceptors [admin-interceptor]
+  {:bot-command {:atualizar_menu  {:interceptors [admin-interceptor]
                                    :handler      upsert-menu!}
                  :ativar_cadastro {:interceptors [admin-interceptor]
                                    :handler      activate-user!}

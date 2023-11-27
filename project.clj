@@ -7,7 +7,7 @@
   :plugins [[com.github.clojure-lsp/lein-clojure-lsp "1.4.2"]]
 
   :dependencies [[org.clojure/clojure "1.11.1"]
-                 [net.clojars.macielti/common-clj "300.47.47"]
+                 [net.clojars.macielti/common-clj "24.48.47"]
                  [clojure.java-time "1.4.2"]
                  [hashp "0.2.2"]
                  [metosin/schema-tools "0.13.1"]

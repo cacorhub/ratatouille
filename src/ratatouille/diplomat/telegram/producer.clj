@@ -1,10 +1,10 @@
 (ns ratatouille.diplomat.telegram.producer
   (:require
-    [common-clj.component.telegram.producer :as component.telegram.producer]
-    [morse.api :as morse-api]
-    [schema.core :as s])
+   [common-clj.component.telegram.producer :as component.telegram.producer]
+   [morse.api :as morse-api]
+   [schema.core :as s])
   (:import
-    (java.io File)))
+   (java.io File)))
 
 (s/defn notify-user-creation!
   [telegram-chat-id :- s/Str
