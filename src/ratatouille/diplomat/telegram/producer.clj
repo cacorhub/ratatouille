@@ -29,17 +29,17 @@
 
 (s/defn notify-lunch-reservation-outside-time-window!
   [telegram-chat-id :- s/Str
-   {:keys [telegram]}]
-  (morse-api/send-text (:token telegram)
-                       telegram-chat-id
-                       "Reserva não concluida. Reservas de almoço só podem ser realizadas de 06:00 até 10:00 da manhã."))
+   telegram-producer]
+  (component.telegram.producer/send-text! {:chat-id telegram-chat-id
+                                           :text    "Reserva não concluida. Reservas de almoço só podem ser realizadas de 06:00 até 10:00 da manhã."}
+                                          telegram-producer))
 
 (s/defn notify-dinner-reservation-outside-time-window!
   [telegram-chat-id :- s/Str
-   {:keys [telegram]}]
-  (morse-api/send-text (:token telegram)
-                       telegram-chat-id
-                       "Reserva não concluida. Reservas de janta só podem ser realizadas de 12:00 até 16:00 da tarde."))
+   telegram-producer]
+  (component.telegram.producer/send-text! {:chat-id telegram-chat-id
+                                           :text    "Reserva não concluida. Reservas de janta só podem ser realizadas de 12:00 até 16:00 da tarde."}
+                                          telegram-producer))
 
 (s/defn notify-reservation-qr-code!
   [telegram-chat-id :- s/Str
@@ -51,7 +51,7 @@
 
 (s/defn notify-reservations-over-limit
   [telegram-chat-id :- s/Str
-   {:keys [telegram]}]
-  (morse-api/send-text (:token telegram)
-                       telegram-chat-id
-                       "Reserva não concluida. Atingimos o limite máximo diário de reservas."))
+   telegram-producer]
+  (component.telegram.producer/send-text! {:chat-id telegram-chat-id
+                                           :text    "Reserva não concluida. Atingimos o limite máximo diário de reservas."}
+                                          telegram-producer))

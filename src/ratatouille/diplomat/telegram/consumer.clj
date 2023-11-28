@@ -61,13 +61,13 @@
 
 (defn reserve-lunch!
   [{{:update/keys [chat-id]} :update
-    {:keys [config datomic]} :components}]
-  (controllers.reservation/reserve-lunch! chat-id (jt/local-date-time) (:connection datomic) config))
+    {:keys [config datomic telegram-producer]} :components}]
+  (controllers.reservation/reserve-lunch! chat-id (jt/local-date-time) (:connection datomic) telegram-producer config))
 
 (defn reserve-dinner!
   [{{:update/keys [chat-id]} :update
-    {:keys [config datomic]} :components}]
-  (controllers.reservation/reserve-dinner! chat-id (jt/local-date-time) (:connection datomic) config))
+    {:keys [config datomic telegram-producer]} :components}]
+  (controllers.reservation/reserve-dinner! chat-id (jt/local-date-time) (:connection datomic) telegram-producer config))
 
 (def consumers
   {:bot-command {:atualizar_menu  {:interceptors [admin-interceptor]
