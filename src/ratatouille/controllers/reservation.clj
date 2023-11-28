@@ -1,6 +1,7 @@
 (ns ratatouille.controllers.reservation
   (:require
    [clj.qrgen]
+   [common-clj.component.telegram.models.producer :as component.telegram.models.producer]
    [datomic.client.api :as dl]
    [java-time.api :as jt]
    [ratatouille.db.datomic.meal :as database.meal]
@@ -16,7 +17,7 @@
   [chat-id :- s/Str
    as-of :- LocalTime
    datomic-connection
-   telegram-producer
+   telegram-producer :- component.telegram.models.producer/TelegramProducer
    config]
   (if (logic.reservation/with-in-time-window-for-lunch-reservation? (jt/local-time as-of) config)
     (let [{user-id :user/id} (database.user/lookup-by-telegram-chat-id (str chat-id) (dl/db datomic-connection))
@@ -33,7 +34,7 @@
   [chat-id :- s/Str
    as-of :- LocalTime
    datomic-connection
-   telegram-producer
+   telegram-producer :- component.telegram.models.producer/TelegramProducer
    config]
   (if (logic.reservation/with-in-time-window-for-dinner-reservation? (jt/local-time as-of) config)
     (let [{:user/keys [id]} (database.user/lookup-by-telegram-chat-id (str chat-id) (dl/db datomic-connection))

@@ -1,5 +1,6 @@
 (ns ratatouille.controllers.user
   (:require
+   [common-clj.component.telegram.models.producer :as component.telegram.models.producer]
    [datomic.client.api :as dl]
    [ratatouille.db.datomic.user :as database.user]
    [ratatouille.diplomat.telegram.producer :as diplomat.telegram.producer]
@@ -9,7 +10,7 @@
 (s/defn create! :- models.user/User
   [user :- models.user/User
    datomic-connection
-   telegram-producer]
+   telegram-producer :- component.telegram.models.producer/TelegramProducer]
   (database.user/insert! user datomic-connection)
   (diplomat.telegram.producer/notify-user-creation! (:user/telegram-chat-id user) telegram-producer)
   user)
@@ -18,7 +19,7 @@
   [user-telegram-chat-id :- s/Str
    chat-id :- s/Str
    datomic-connection
-   telegram-producer]
+   telegram-producer :- component.telegram.models.producer/TelegramProducer]
   (let [{:user/keys [id status] :as user} (database.user/lookup-by-telegram-chat-id user-telegram-chat-id (dl/db datomic-connection))]
     (when (= status :user.status/pending-activation)
       (database.user/activate! id datomic-connection))
