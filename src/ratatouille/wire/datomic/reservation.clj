@@ -1,4 +1,8 @@
-(ns ratatouille.wire.datomic.reservation)
+(ns ratatouille.wire.datomic.reservation
+  (:require [ratatouille.models.reservation :as models.reservation]
+            [schema-tools.core :as schema-tools]
+            [schema.core :as s])
+  (:import (java.util Date)))
 
 (def reservation-skeleton
   [{:db/ident       :reservation/id
@@ -26,3 +30,8 @@
     :db/valueType   :db.type/keyword
     :db/cardinality :db.cardinality/one
     :db/doc         "Reservation status"}])
+
+(s/defschema Reservation
+  (schema-tools/assoc models.reservation/Reservation
+                      (s/optional-key :reservation/redeemed-at) Date
+                      :reservation/created-at Date))
