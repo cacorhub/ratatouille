@@ -2,8 +2,7 @@
   (:require
    [schema.core :as s])
   (:import
-    (java.time Instant)
-    (java.util Date)))
+   (java.time Instant)))
 
 (def statuses #{:reservation.status/ready :reservation.status/redeemed})
 (def Status (apply s/enum statuses))

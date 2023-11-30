@@ -1,8 +1,10 @@
 (ns ratatouille.wire.datomic.reservation
-  (:require [ratatouille.models.reservation :as models.reservation]
-            [schema-tools.core :as schema-tools]
-            [schema.core :as s])
-  (:import (java.util Date)))
+  (:require
+   [ratatouille.models.reservation :as models.reservation]
+   [schema-tools.core :as schema-tools]
+   [schema.core :as s])
+  (:import
+   (java.util Date)))
 
 (def reservation-skeleton
   [{:db/ident       :reservation/id

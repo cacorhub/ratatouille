@@ -1,11 +1,12 @@
 (ns ratatouille.db.datomic.reservation
   (:require
-    [datomic.client.api :as dl]
-    [java-time.api :as jt]
-    [ratatouille.models.reservation :as models.reservation]
-    [ratatouille.adapters.reservation :as adapters.reservation]
-    [schema.core :as s])
-  (:import (java.time Instant)))
+   [datomic.client.api :as dl]
+   [java-time.api :as jt]
+   [ratatouille.adapters.reservation :as adapters.reservation]
+   [ratatouille.models.reservation :as models.reservation]
+   [schema.core :as s])
+  (:import
+   (java.time Instant)))
 
 (s/defn insert!
   [reservation :- models.reservation/Reservation

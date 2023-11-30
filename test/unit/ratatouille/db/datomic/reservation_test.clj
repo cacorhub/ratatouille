@@ -1,13 +1,15 @@
 (ns ratatouille.db.datomic.reservation-test
-  (:require [clojure.test :refer :all]
-            [common-clj.component.datomic :as component.datomic]
-            [datomic.client.api :as dl]
-            [java-time.api :as jt]
-            [ratatouille.db.datomic.config :as datomic.config]
-            [ratatouille.db.datomic.reservation :as database.reservation]
-            [fixtures.reservation]
-            [matcher-combinators.test :refer [match?]]
-            [schema.test :as s]))
+  (:require
+   [clojure.test :refer [is testing]]
+   [common-clj.component.datomic :as component.datomic]
+   [datomic.client.api :as dl]
+   [fixtures.meal]
+   [fixtures.reservation]
+   [java-time.api :as jt]
+   [matcher-combinators.test :refer [match?]]
+   [ratatouille.db.datomic.config :as datomic.config]
+   [ratatouille.db.datomic.reservation :as database.reservation]
+   [schema.test :as s]))
 
 (s/deftest redeemed-test
   (let [mocked-datomic (component.datomic/mocked-datomic-local datomic.config/schemas)]

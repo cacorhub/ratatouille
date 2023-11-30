@@ -1,6 +1,7 @@
 (ns fixtures.reservation
-  (:require [fixtures.meal]
-            [java-time.api :as jt]))
+  (:require
+   [fixtures.meal]
+   [java-time.api :as jt]))
 
 (def reservation-id (random-uuid))
 (def created-at (jt/instant))
