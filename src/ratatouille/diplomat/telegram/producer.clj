@@ -56,3 +56,10 @@
   (component.telegram.producer/send-text! {:chat-id telegram-chat-id
                                            :text    "Reserva não concluida. Atingimos o limite máximo diário de reservas."}
                                           telegram-producer))
+
+(s/defn notify-reservations-redeemed
+  [telegram-chat-id :- s/Str
+   telegram-producer :- component.telegram.models.producer/TelegramProducer]
+  (component.telegram.producer/send-text! {:chat-id telegram-chat-id
+                                           :text    "A sua entrada no RU foi validada"}
+                                          telegram-producer))

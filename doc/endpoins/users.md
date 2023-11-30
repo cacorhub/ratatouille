@@ -38,7 +38,7 @@ A Telegram bot send message with instructions about how to perform activation.
 
 **The error response for a user creation request given an invalid CPF:**
 
-`STATUS 400 - OK`
+`STATUS 400 - Bad Request`
 
 ```json
 {
