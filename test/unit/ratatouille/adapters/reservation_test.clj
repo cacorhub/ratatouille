@@ -1,11 +1,11 @@
 (ns ratatouille.adapters.reservation-test
-  (:require [clojure.test :refer :all]
+  (:require [clojure.test :refer [is testing]]
+            [fixtures.meal]
+            [fixtures.reservation]
             [java-time.api :as jt]
             [matcher-combinators.test :refer [match?]]
             [ratatouille.adapters.reservation :as adapters.reservation]
-            [schema.test :as s]
-            [fixtures.meal]
-            [fixtures.reservation]))
+            [schema.test :as s]))
 
 (s/deftest internal-to-datomic-test
   (testing "Given a internal reservation entity we should be able to convert it to datomic model"

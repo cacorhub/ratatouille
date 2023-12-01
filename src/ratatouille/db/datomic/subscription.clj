@@ -1,8 +1,7 @@
 (ns ratatouille.db.datomic.subscription
-  (:require
-   [datomic.client.api :as dl]
-   [ratatouille.models.subscription :as models.subscription]
-   [schema.core :as s]))
+  (:require [datomic.client.api :as dl]
+            [ratatouille.models.subscription :as models.subscription]
+            [schema.core :as s]))
 
 (s/defn insert!
   [subscription :- models.subscription/Subscription

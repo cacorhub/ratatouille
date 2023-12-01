@@ -1,10 +1,8 @@
 (ns ratatouille.diplomat.http-server.reservation
-  (:require
-   [ratatouille.adapters.reservation :as adapters.reservation]
-   [ratatouille.controllers.reservation :as controllers.reservation]
-   [schema.core :as s])
-  (:import
-   (java.util UUID)))
+  (:require [ratatouille.adapters.reservation :as adapters.reservation]
+            [ratatouille.controllers.reservation :as controllers.reservation]
+            [schema.core :as s])
+  (:import (java.util UUID)))
 
 (s/defn redeem!
   [{{:keys [reservation-id]} :path-params

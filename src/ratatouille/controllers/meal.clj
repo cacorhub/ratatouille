@@ -1,13 +1,12 @@
 (ns ratatouille.controllers.meal
-  (:require
-   [clj-time.core :as t]
-   [clj-time.predicates :as t-predicates]
-   [datomic.client.api :as dl]
-   [java-time.api :as jt]
-   [ratatouille.db.datomic.meal :as database.meal]
-   [ratatouille.logic.meal :as logic.meal]
-   [schema.core :as s]
-   [taoensso.timbre :as log]))
+  (:require [clj-time.core :as t]
+            [clj-time.predicates :as t-predicates]
+            [datomic.client.api :as dl]
+            [java-time.api :as jt]
+            [ratatouille.db.datomic.meal :as database.meal]
+            [ratatouille.logic.meal :as logic.meal]
+            [schema.core :as s]
+            [taoensso.timbre :as log]))
 
 (s/defn mise-in-place-meal-job!
   [datomic-connection]

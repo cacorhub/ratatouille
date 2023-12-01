@@ -1,8 +1,7 @@
 (ns ratatouille.db.datomic.user
-  (:require
-   [datomic.client.api :as dl]
-   [ratatouille.models.user :as models.user]
-   [schema.core :as s]))
+  (:require [datomic.client.api :as dl]
+            [ratatouille.models.user :as models.user]
+            [schema.core :as s]))
 
 (s/defn insert!
   [user :- models.user/User

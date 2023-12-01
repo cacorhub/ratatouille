@@ -1,9 +1,8 @@
 (ns ratatouille.interceptors.rate-limiter
-  (:require
-   [clj-rate-limiter.core :as r]
-   [common-clj.error.core :as common-error]
-   [iapetos.core :as prometheus]
-   [io.pedestal.interceptor :as pedestal.interceptor]))
+  (:require [clj-rate-limiter.core :as r]
+            [common-clj.error.core :as common-error]
+            [iapetos.core :as prometheus]
+            [io.pedestal.interceptor :as pedestal.interceptor]))
 
 (def rate-limiters-definition
   {:four-requests-per-min (r/rate-limiter-factory :memory

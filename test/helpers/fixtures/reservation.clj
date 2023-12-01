@@ -14,11 +14,11 @@
 
 (def reservation-redeemed
   (assoc reservation-ready :reservation/redeemed-at redeemed-at
-                           :reservation/status :reservation.status/redeemed))
+         :reservation/status :reservation.status/redeemed))
 
 (def reservation-ready-datomic
   (assoc reservation-ready :reservation/created-at (jt/java-date created-at)))
 
 (def reservation-redeemed-datomic
   (assoc reservation-ready-datomic :reservation/redeemed-at (jt/java-date redeemed-at)
-                                   :reservation/status :reservation.status/redeemed))
+         :reservation/status :reservation.status/redeemed))

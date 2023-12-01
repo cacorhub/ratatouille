@@ -1,9 +1,8 @@
 (ns ratatouille.job
-  (:require
-   [com.stuartsierra.component :as component]
-   [overtone.at-at :as at-at]
-   [ratatouille.controllers.meal :as controllers.meal]
-   [taoensso.timbre :as log]))
+  (:require [com.stuartsierra.component :as component]
+            [overtone.at-at :as at-at]
+            [ratatouille.controllers.meal :as controllers.meal]
+            [taoensso.timbre :as log]))
 
 (defrecord Jobs [config datomic]
   component/Lifecycle

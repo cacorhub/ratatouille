@@ -1,9 +1,8 @@
 (ns ratatouille.controllers.menu
-  (:require
-   [clojure.java.io :as io]
-   [morse.api :as morse-api]
-   [ratatouille.db.datomic.subscription :as database.subscription]
-   [schema.core :as s]))
+  (:require [clojure.java.io :as io]
+            [morse.api :as morse-api]
+            [ratatouille.db.datomic.subscription :as database.subscription]
+            [schema.core :as s]))
 
 (s/defn notify-menu-update!
   [config

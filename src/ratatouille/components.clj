@@ -1,21 +1,20 @@
 (ns ratatouille.components
-  (:require
-   [com.stuartsierra.component :as component]
-   [common-clj.component.config :as component.config]
-   [common-clj.component.datomic :as component.datomic]
-   [common-clj.component.http-client :as component.http-client]
-   [common-clj.component.prometheus :as component.prometheus]
-   [common-clj.component.rate-limiter :as component.rate-limiter]
-   [common-clj.component.routes :as component.routes]
-   [common-clj.component.service :as component.service]
-   [common-clj.component.telegram.consumer :as component.telegram.consumer]
-   [common-clj.component.telegram.producer :as component.telegram.producer]
-   [ratatouille.db.datomic.config :as datomic.config]
-   [ratatouille.diplomat.http-server :as diplomat.http-server]
-   [ratatouille.diplomat.prometheus :as diplomat.prometheus]
-   [ratatouille.diplomat.telegram.consumer :as diplomat.telegram.consumer]
-   [ratatouille.interceptors.rate-limiter :as interceptors.rate-limiter]
-   [ratatouille.job :as job]))
+  (:require [com.stuartsierra.component :as component]
+            [common-clj.component.config :as component.config]
+            [common-clj.component.datomic :as component.datomic]
+            [common-clj.component.http-client :as component.http-client]
+            [common-clj.component.prometheus :as component.prometheus]
+            [common-clj.component.rate-limiter :as component.rate-limiter]
+            [common-clj.component.routes :as component.routes]
+            [common-clj.component.service :as component.service]
+            [common-clj.component.telegram.consumer :as component.telegram.consumer]
+            [common-clj.component.telegram.producer :as component.telegram.producer]
+            [ratatouille.db.datomic.config :as datomic.config]
+            [ratatouille.diplomat.http-server :as diplomat.http-server]
+            [ratatouille.diplomat.prometheus :as diplomat.prometheus]
+            [ratatouille.diplomat.telegram.consumer :as diplomat.telegram.consumer]
+            [ratatouille.interceptors.rate-limiter :as interceptors.rate-limiter]
+            [ratatouille.job :as job]))
 
 (def system
   (component/system-map

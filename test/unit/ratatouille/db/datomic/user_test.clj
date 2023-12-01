@@ -1,13 +1,12 @@
 (ns ratatouille.db.datomic.user-test
-  (:require
-   [clojure.test :refer [is testing]]
-   [common-clj.component.datomic :as component.datomic]
-   [datomic.client.api :as dl]
-   [fixtures.user]
-   [matcher-combinators.test :refer [match?]]
-   [ratatouille.db.datomic.config :as datomic.config]
-   [ratatouille.db.datomic.user :as database.user]
-   [schema.test :as s]))
+  (:require [clojure.test :refer [is testing]]
+            [common-clj.component.datomic :as component.datomic]
+            [datomic.client.api :as dl]
+            [fixtures.user]
+            [matcher-combinators.test :refer [match?]]
+            [ratatouille.db.datomic.config :as datomic.config]
+            [ratatouille.db.datomic.user :as database.user]
+            [schema.test :as s]))
 
 (s/deftest lookup-by-telegram-chat-id-test
   (let [mocked-datomic (component.datomic/mocked-datomic-local datomic.config/schemas)]

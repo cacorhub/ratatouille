@@ -1,9 +1,8 @@
 (ns ratatouille.adapters.meal
-  (:require
-   [java-time.api :as jt]
-   [ratatouille.models.meal :as models.meal]
-   [ratatouille.wire.datomic.meal :as wire.datomic.meal]
-   [schema.core :as s]))
+  (:require [java-time.api :as jt]
+            [ratatouille.models.meal :as models.meal]
+            [ratatouille.wire.datomic.meal :as wire.datomic.meal]
+            [schema.core :as s]))
 
 (s/defn internal->datomic :- wire.datomic.meal/Meal
   [{:meal/keys [reference-date created-at] :as meal} :- models.meal/Meal]

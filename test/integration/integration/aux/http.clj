@@ -1,7 +1,6 @@
 (ns integration.aux.http
-  (:require
-   [cheshire.core :as json]
-   [io.pedestal.test :as test]))
+  (:require [cheshire.core :as json]
+            [io.pedestal.test :as test]))
 
 (defn create-user!
   [user

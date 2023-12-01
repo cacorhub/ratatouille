@@ -1,12 +1,11 @@
 (ns ratatouille.controllers.subscription
-  (:require
-   [common-clj.component.telegram.models.update :as component.telegram.models.update]
-   [datomic.client.api :as dl]
-   [morse.api :as morse-api]
-   [ratatouille.db.datomic.subscription :as database.subscription]
-   [ratatouille.db.datomic.user :as database.user]
-   [ratatouille.models.subscription :as models.subscription]
-   [schema.core :as s]))
+  (:require [common-clj.component.telegram.models.update :as component.telegram.models.update]
+            [datomic.client.api :as dl]
+            [morse.api :as morse-api]
+            [ratatouille.db.datomic.subscription :as database.subscription]
+            [ratatouille.db.datomic.user :as database.user]
+            [ratatouille.models.subscription :as models.subscription]
+            [schema.core :as s]))
 
 (s/defn send-instructions-about-user-creation
   [{:update/keys [chat-id]} :- component.telegram.models.update/Update

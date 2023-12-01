@@ -1,8 +1,6 @@
 (ns fixtures.meal
-  (:require
-   [java-time.api :as jt])
-  (:import
-   (java.util Date)))
+  (:require [java-time.api :as jt])
+  (:import (java.util Date)))
 
 (def meal-id (random-uuid))
 (def reference-date (jt/local-date 1998 12 26))
