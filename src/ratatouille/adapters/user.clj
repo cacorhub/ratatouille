@@ -1,11 +1,10 @@
 (ns ratatouille.adapters.user
-  (:require
-   [cadastro-de-pessoa.shared]
-   [common-clj.keyword.core :as common-keyword]
-   [ratatouille.models.user :as models.user]
-   [ratatouille.wire.in.user :as wire.in.user]
-   [ratatouille.wire.out.user :as wire.out.user]
-   [schema.core :as s]))
+  (:require [cadastro-de-pessoa.shared]
+            [common-clj.keyword.core :as common-keyword]
+            [ratatouille.models.user :as models.user]
+            [ratatouille.wire.in.user :as wire.in.user]
+            [ratatouille.wire.out.user :as wire.out.user]
+            [schema.core :as s]))
 
 (s/defn wire->internal :- models.user/User
   [{:keys [cpf name telegram-chat-id]} :- wire.in.user/User]

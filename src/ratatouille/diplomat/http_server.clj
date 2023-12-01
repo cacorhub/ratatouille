@@ -1,11 +1,10 @@
 (ns ratatouille.diplomat.http-server
-  (:require
-   [common-clj.component.prometheus :as component.prometheus]
-   [ratatouille.diplomat.http-server.reservation :as diplomat.http-server.reservation]
-   [ratatouille.diplomat.http-server.user :as diplomat.http-server.user]
-   [ratatouille.interceptors.rate-limiter :as interceptors.rate-limiter]
-   [ratatouille.interceptors.reservation :as interceptors.reservation]
-   [ratatouille.interceptors.user :as interceptors.user]))
+  (:require [common-clj.component.prometheus :as component.prometheus]
+            [ratatouille.diplomat.http-server.reservation :as diplomat.http-server.reservation]
+            [ratatouille.diplomat.http-server.user :as diplomat.http-server.user]
+            [ratatouille.interceptors.rate-limiter :as interceptors.rate-limiter]
+            [ratatouille.interceptors.reservation :as interceptors.reservation]
+            [ratatouille.interceptors.user :as interceptors.user]))
 
 (def routes [["/api/users" :post [interceptors.rate-limiter/rate-limit-four-per-min-based-on-ip-interceptor
                                   interceptors.user/cpf-validation-interceptor

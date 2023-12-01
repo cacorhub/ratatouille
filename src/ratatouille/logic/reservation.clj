@@ -1,13 +1,11 @@
 (ns ratatouille.logic.reservation
-  (:require
-   [common-clj.keyword.core :as common-keyword]
-   [java-time.api :as jt]
-   [ratatouille.models.meal :as models.meal]
-   [ratatouille.models.reservation :as models.reservation]
-   [schema.core :as s])
-  (:import
-   (java.time LocalTime)
-   (java.util Date)))
+  (:require [common-clj.keyword.core :as common-keyword]
+            [java-time.api :as jt]
+            [ratatouille.models.meal :as models.meal]
+            [ratatouille.models.reservation :as models.reservation]
+            [schema.core :as s])
+  (:import (java.time LocalTime)
+           (java.util Date)))
 
 (s/defn ->reservation :- models.reservation/Reservation
   [meal-id :- s/Uuid

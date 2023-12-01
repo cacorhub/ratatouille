@@ -16,7 +16,6 @@
                  [metosin/schema-tools "0.13.1"]
                  [clj.qrgen "0.4.0"]]
 
-  :clojure-lsp {:settings {:clean {:ns-inner-blocks-indentation :same-line}}} ;; API options
   :aliases {"clean-ns"     ["clojure-lsp" "clean-ns" "--dry"] ;; check if namespaces are clean
             "format"       ["clojure-lsp" "format" "--dry"] ;; check if namespaces are formatted
             "diagnostics"  ["clojure-lsp" "diagnostics"]    ;; check if project has any diagnostics (clj-kondo findings)

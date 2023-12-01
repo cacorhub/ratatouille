@@ -16,4 +16,4 @@ pom.xml.asc
 ratatouille.iml
 /resources/menu.jpg
 /.clj-kondo/
-/.lsp/
+/.lsp/.cache/

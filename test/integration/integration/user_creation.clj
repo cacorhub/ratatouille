@@ -1,16 +1,15 @@
 (ns integration.user-creation
-  (:require
-   [clj-uuid]
-   [clojure.string :as str]
-   [clojure.test :refer [is testing]]
-   [com.stuartsierra.component :as component]
-   [common-clj.component.helper.core :as component.helper]
-   [fixtures.user]
-   [integration.aux.http :as aux.http]
-   [matcher-combinators.test :refer [match?]]
-   [mockfn.matchers]
-   [ratatouille.components :as components]
-   [schema.test :as s]))
+  (:require [clj-uuid]
+            [clojure.string :as str]
+            [clojure.test :refer [is testing]]
+            [com.stuartsierra.component :as component]
+            [common-clj.component.helper.core :as component.helper]
+            [fixtures.user]
+            [integration.aux.http :as aux.http]
+            [matcher-combinators.test :refer [match?]]
+            [mockfn.matchers]
+            [ratatouille.components :as components]
+            [schema.test :as s]))
 
 (s/deftest user-creation
   (let [system (component/start components/system-test)

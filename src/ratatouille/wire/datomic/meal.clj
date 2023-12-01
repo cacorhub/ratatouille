@@ -1,10 +1,8 @@
 (ns ratatouille.wire.datomic.meal
-  (:require
-   [ratatouille.models.meal :as models.meal]
-   [schema-tools.core :as schema-tools]
-   [schema.core :as s])
-  (:import
-   (java.util Date)))
+  (:require [ratatouille.models.meal :as models.meal]
+            [schema-tools.core :as schema-tools]
+            [schema.core :as s])
+  (:import (java.util Date)))
 
 (def meal-skeleton
   [{:db/ident       :meal/id
