@@ -36,3 +36,10 @@
                  :reservation/redeemed-at jt/instant?
                  :reservation/status      :reservation.status/redeemed}
                 (adapters.reservation/datomic->internal fixtures.reservation/reservation-redeemed-datomic)))))
+
+(s/deftest internal-to-wire-test
+  (testing "Given a internal model entity we can convert it to a external model"
+    (is (= {:id      fixtures.reservation/reservation-id
+            :meal-id fixtures.meal/meal-id
+            :status  :ready}
+           (adapters.reservation/internal->wire fixtures.reservation/reservation-ready)))))
