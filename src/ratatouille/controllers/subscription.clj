@@ -19,7 +19,8 @@
                            "A sua conta está com processo de ativação pendente. [Instruções sobre ativação]"))
     (morse-api/send-text (:token telegram)
                          chat-id
-                         (str "[Instruções sobre criação da conta de usuário]" "Código para cadastro: " chat-id))))
+                         {:parse_mode "MarkdownV2"}
+                         (str "[Clique aqui](http://127.0.0.1:9090/create_user.html?chat-id=" chat-id ") para criar o seu cadastro " "Código para cadastro: " chat-id))))
 
 (s/defn bot-subscription!
   [{:subscription/keys [id] :as subscription} :- models.subscription/Subscription
